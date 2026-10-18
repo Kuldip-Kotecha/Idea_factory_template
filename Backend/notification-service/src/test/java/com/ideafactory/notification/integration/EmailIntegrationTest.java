@@ -103,7 +103,7 @@ class EmailIntegrationTest {
         payload.put("to", testEmail);
         payload.put("subject", "Integration Test - IdeaFactory Email Delivery");
         payload.put("text", "This is an automated integration test. If you received this, email delivery is working correctly.");
-        payload.put("ctaUrl", "https://interview-coach-kk.vercel.app");
+        payload.put("ctaUrl", "https://example.com");
 
         mockMvc.perform(post("/notifications/send-email")
                         .contentType("application/json")

@@ -239,10 +239,10 @@ public class CloudinaryStorageServiceImpl implements StorageService {
     /**
      * Extract public_id from a Cloudinary URL, full URL, or raw public_id path
      * Examples:
-     * - Full URL: https://res.cloudinary.com/daajkbogx/video/upload/v1234567890/interviews/1/12.webm
-     * - Public ID: interviews/1/12.webm
+     * - Full URL: https://res.cloudinary.com/daajkbogx/video/upload/v1234567890/media/1/12.webm
+     * - Public ID: media/1/12.webm
      * - Local path: /app/uploads/1/12.webm (won't work with Cloudinary)
-     * Returns: interviews/1/12 (without version and extension)
+     * Returns: media/1/12 (without version and extension)
      */
     private String extractPublicIdFromPath(String path) {
         if (path == null || path.isEmpty()) {

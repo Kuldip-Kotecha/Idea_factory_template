@@ -15,7 +15,7 @@ public class GatewayCorsConfig {
 
     /**
      * Comma-separated list of allowed origins.
-     * e.g. "http://localhost:4200,https://interview-coach-kk.vercel.app"
+     * e.g. "http://localhost:4200,https://app.yourdomain.com"
      * Override via APP_FRONTEND_URL / APP_FRONTEND_URL_PROD env vars.
      */
     @Value("${app.frontend.url}")

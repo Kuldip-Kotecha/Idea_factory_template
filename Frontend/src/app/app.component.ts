@@ -15,5 +15,5 @@ import { FaqWidgetComponent } from './components/faq-widget/faq-widget.component
   styles: [],
 })
 export class AppComponent {
-  title = 'interview-coach';
+  title = 'idea-factory';
 }

@@ -18,7 +18,7 @@ app:
     utility-service: ${UTILITY_SERVICE_URL}
     notification-service: ${NOTIFICATION_SERVICE_URL}
   frontend:
-    url: "http://localhost:4200,https://interview-coach-kk.vercel.app"
+    url: "http://localhost:4200,https://app.example.com"
 
 spring:
   application:

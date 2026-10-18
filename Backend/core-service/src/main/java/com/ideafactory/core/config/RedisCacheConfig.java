@@ -61,12 +61,10 @@ public class RedisCacheConfig {
                 .entryTtl(Duration.ofMinutes(10));
 
         Map<String, RedisCacheConfiguration> cacheConfigurations = new HashMap<>();
-        cacheConfigurations.put("interviews", defaultConfig.entryTtl(Duration.ofMinutes(5)));
-        cacheConfigurations.put("messages", defaultConfig.entryTtl(Duration.ofMinutes(2)));
-        cacheConfigurations.put("jobDetails", defaultConfig.entryTtl(Duration.ofHours(1)));
-        cacheConfigurations.put("interviewDetails", defaultConfig.entryTtl(Duration.ofMinutes(15)));
+        cacheConfigurations.put("sampleItems", defaultConfig.entryTtl(Duration.ofMinutes(5)));
+        cacheConfigurations.put("entities", defaultConfig.entryTtl(Duration.ofMinutes(15)));
 
-        logger.info("Redis cache manager initialized with TTLs: interviews=5m, messages=2m, jobDetails=1h, interviewDetails=15m");
+        logger.info("Redis cache manager initialized with TTLs: sampleItems=5m, entities=15m");
 
         return RedisCacheManager.builder(connectionFactory)
                 .cacheDefaults(defaultConfig)

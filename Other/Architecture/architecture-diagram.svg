@@ -92,7 +92,7 @@
   <rect x="530" y="215" width="145" height="120" rx="8" ry="8" fill="#fff" stroke="#27ae60" stroke-width="1.5" filter="url(#shadow)"/>
   <text x="602" y="238" text-anchor="middle" class="label" font-weight="700" fill="#27ae60">Core Service</text>
   <text x="602" y="252" text-anchor="middle" class="label-small">:8081</text>
-  <text x="602" y="272" text-anchor="middle" class="label-small">Interview CRUD</text>
+  <text x="602" y="272" text-anchor="middle" class="label-small">Domain Entity CRUD</text>
   <text x="602" y="286" text-anchor="middle" class="label-small">SSE Sessions</text>
   <text x="602" y="300" text-anchor="middle" class="label-small">AI Orchestration</text>
   <text x="602" y="314" text-anchor="middle" class="label-small">Report Generation</text>
@@ -150,7 +150,7 @@
   <!-- ===== Database Layer ===== -->
   <rect x="530" y="595" width="455" height="80" rx="8" ry="8" fill="#fdecea" stroke="#e74c3c" stroke-width="1.5"/>
   <text x="757" y="618" text-anchor="middle" class="label" font-weight="700" fill="#e74c3c">MySQL Databases (HikariCP, ddl-auto: none)</text>
-  <text x="620" y="640" text-anchor="middle" class="label-small">Core: interviews, interview_messages</text>
+  <text x="620" y="640" text-anchor="middle" class="label-small">Core: sample_items, entities</text>
   <text x="760" y="640" text-anchor="middle" class="label-small">User: users</text>
   <text x="900" y="640" text-anchor="middle" class="label-small">Media: (declared, unused)</text>
 
@@ -182,7 +182,7 @@
   <!-- Local File Storage -->
   <rect x="1070" y="395" width="290" height="55" rx="8" ry="8" fill="#fef9e7" stroke="#e67e22" stroke-width="1.5"/>
   <text x="1215" y="418" text-anchor="middle" class="label" font-weight="700" fill="#e67e22">💾 Local File Storage</text>
-  <text x="1215" y="436" text-anchor="middle" class="label-small">/app/uploads/{userId}/{interviewId}/</text>
+  <text x="1215" y="436" text-anchor="middle" class="label-small">/app/uploads/{userId}/{resourceId}/</text>
 
   <!-- ==================== RABBITMQ ==================== -->
   <rect x="500" y="720" width="520" height="120" rx="12" ry="12" fill="#fff" stroke="#f39c12" stroke-width="2" filter="url(#shadow)"/>
@@ -214,8 +214,8 @@
   <text x="760" y="885" text-anchor="middle" class="section-title" fill="#e74c3c">☁️ Cloud SQL (MySQL) — Database Layer</text>
   <rect x="520" y="895" width="150" height="55" rx="6" ry="6" fill="#fdecea" stroke="#e74c3c" stroke-width="1.5"/>
   <text x="595" y="918" text-anchor="middle" class="label-small" font-weight="600">Core DB</text>
-  <text x="595" y="934" text-anchor="middle" class="label-small">interviews</text>
-  <text x="595" y="946" text-anchor="middle" class="label-small">interview_messages</text>
+  <text x="595" y="934" text-anchor="middle" class="label-small">sample_items</text>
+  <text x="595" y="946" text-anchor="middle" class="label-small">entities</text>
 
   <rect x="685" y="895" width="150" height="55" rx="6" ry="6" fill="#fdecea" stroke="#e74c3c" stroke-width="1.5"/>
   <text x="760" y="918" text-anchor="middle" class="label-small" font-weight="600">User DB</text>

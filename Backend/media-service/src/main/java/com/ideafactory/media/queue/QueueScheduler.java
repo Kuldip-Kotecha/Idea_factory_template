@@ -80,19 +80,19 @@ public class QueueScheduler {
             @SuppressWarnings("unchecked")
             Map<String, Object> message = objectMapper.readValue(jsonMessage, Map.class);
 
-            Long interviewId = message.get("interviewId") != null
-                    ? ((Number) message.get("interviewId")).longValue()
-                    : null;
+            Long resourceId = message.get("resourceId") != null
+                    ? ((Number) message.get("resourceId")).longValue()
+                    : (message.get("interviewId") != null ? ((Number) message.get("interviewId")).longValue() : null);
             String filename = (String) message.get("filename");
             String action = (String) message.get("action");
 
-            logger.info("Processing media for interview={}, file={}, action={}", interviewId, filename, action);
+            logger.info("Processing media for resourceId={}, file={}, action={}", resourceId, filename, action);
 
             if ("ANALYZE_PROSODY".equals(action)) {
-                logger.info("Prosody analysis queued for interview {}. Integrate with AI service for actual processing.", interviewId);
+                logger.info("Media analysis queued for resourceId {}. Integrate with AI service for actual processing.", resourceId);
             }
 
-            logger.info("Media processing completed for interview={}, file={}", interviewId, filename);
+            logger.info("Media processing completed for resourceId={}, file={}", resourceId, filename);
         } catch (Exception e) {
             logger.error("Failed to process media message: {}", jsonMessage, e);
         }
