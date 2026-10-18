@@ -40,14 +40,14 @@ spring:
       client:
         registration:
           google:
-            client-id: ${GOOGLE_CLIENT_ID}
-            client-secret: ${GOOGLE_CLIENT_SECRET}
+            client-id: ${GOOGLE_CLIENT_ID:google-client-id-placeholder}
+            client-secret: ${GOOGLE_CLIENT_SECRET:google-client-secret-placeholder}
             scope: profile, email
-            redirect-uri: ${OAUTH2_REDIRECT_URI}
+            redirect-uri: ${OAUTH2_REDIRECT_URI:{baseUrl}/login/oauth2/code/{registrationId}}
 
 logging:
   level:
-    com.interviewcoach.user: DEBUG
+    com.ideafactory.user: DEBUG
 
 management:
   endpoints:

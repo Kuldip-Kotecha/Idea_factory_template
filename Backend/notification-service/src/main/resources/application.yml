@@ -28,12 +28,12 @@ spring:
 
 logging:
   level:
-    com.interviewcoach.notification: DEBUG
+    com.ideafactory.notification: DEBUG
 
 app:
   notification:
-    email-from: ${APP_NOTIFICATION_EMAIL_FROM:InterviewCoach2025@gmail.com}
-    support-email: ${APP_NOTIFICATION_SUPPORT_EMAIL:support@interviewcoach.com}
+    email-from: ${APP_NOTIFICATION_EMAIL_FROM:noreply@example.com}
+    support-email: ${APP_NOTIFICATION_SUPPORT_EMAIL:support@example.com}
 
 management:
   endpoints:

@@ -3,11 +3,11 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.interviewcoach</groupId>
-    <artifactId>interviewcoach-parent</artifactId>
+    <groupId>com.ideafactory</groupId>
+    <artifactId>ideafactory-parent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>Interview Coach Parent</name>
+    <name>Idea Factory Parent</name>
     <description>Parent Project fixing IDE Classpath resolution for all Spring Boot Services</description>
 
     <modules>

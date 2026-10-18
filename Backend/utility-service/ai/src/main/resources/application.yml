@@ -39,7 +39,7 @@ rate:
 
 logging:
   level:
-    com.interviewcoach.utility: ${LOG_LEVEL:DEBUG}
+    com.ideafactory.utility: ${LOG_LEVEL:DEBUG}
 
 management:
   endpoints:

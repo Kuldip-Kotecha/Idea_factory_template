@@ -71,21 +71,10 @@ describe('LoginComponent', () => {
     expect(authServiceSpy.login).not.toHaveBeenCalled();
   });
 
-  it('should expose saved guest report summary on login', () => {
-    sessionStorage.setItem('guest_interview_summary', JSON.stringify({
-      outcome: 'EARLY_EXIT',
-      score: 'N/A',
-      duration: '00:30',
-      words: 0
-    }));
-
-    component.ngOnInit();
-
-    expect(component.guestSummary).toEqual(jasmine.objectContaining({
-      outcome: 'EARLY_EXIT',
-      score: 'N/A',
-      duration: '00:30',
-      words: 0
-    }));
+  it('should call authService.loginWithGoogle when loginWithGoogle is triggered', () => {
+    authServiceSpy.loginWithGoogle = jasmine.createSpy('loginWithGoogle');
+    component.loginWithGoogle();
+    expect(component.isGoogleLoading).toBeTrue();
+    expect(authServiceSpy.loginWithGoogle).toHaveBeenCalled();
   });
 });

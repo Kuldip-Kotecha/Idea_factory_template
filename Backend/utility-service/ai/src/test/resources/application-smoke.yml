@@ -28,4 +28,4 @@ management:
 
 logging:
   level:
-    com.interviewcoach.utility: INFO
+    com.ideafactory.utility: INFO

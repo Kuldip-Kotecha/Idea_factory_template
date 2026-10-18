@@ -50,7 +50,7 @@ management:
 # Logging
 logging:
   level:
-    com.interviewcoach.media: INFO
+    com.ideafactory.media: INFO
     org.springframework: WARN
     org.hibernate: WARN
 

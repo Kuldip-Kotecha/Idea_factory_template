@@ -33,7 +33,7 @@
   <rect width="1400" height="1050" fill="#f8f9fb"/>
 
   <!-- ==================== TITLE ==================== -->
-  <text x="700" y="35" text-anchor="middle" class="title">InterviewCoach — System Architecture</text>
+  <text x="700" y="35" text-anchor="middle" class="title">Idea Factory — System Architecture</text>
 
   <!-- ==================== COLUMN 1: TRIGGERS ==================== -->
   <rect x="20" y="60" width="220" height="280" rx="12" ry="12" fill="#fff" stroke="#2980b9" stroke-width="2" filter="url(#shadow)"/>

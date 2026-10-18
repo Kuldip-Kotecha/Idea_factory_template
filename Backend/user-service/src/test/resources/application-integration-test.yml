@@ -70,6 +70,6 @@ management:
 # Logging
 logging:
   level:
-    com.interviewcoach.user: INFO
+    com.ideafactory.user: INFO
     org.springframework: WARN
     org.springframework.security: DEBUG

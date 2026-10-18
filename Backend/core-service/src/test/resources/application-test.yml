@@ -31,7 +31,7 @@ management:
 
 logging:
   level:
-    com.interviewcoach.core: WARN
+    com.ideafactory.core: WARN
 
 MEDIA_SERVICE_URL: http://localhost:8082
 UTILITY_SERVICE_URL: http://localhost:8085

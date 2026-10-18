@@ -64,6 +64,6 @@ management:
 # Logging
 logging:
   level:
-    com.interviewcoach.notification: INFO
+    com.ideafactory.notification: INFO
     org.springframework: WARN
     org.springframework.mail: DEBUG

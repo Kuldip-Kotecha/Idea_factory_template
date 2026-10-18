@@ -23,7 +23,7 @@ koroko:
 
 logging:
   level:
-    com.interviewcoach.utility: WARN
+    com.ideafactory.utility: WARN
 
 cloudflare:
   account-id: ${CLOUDFLARE_ACCOUNT_ID:}

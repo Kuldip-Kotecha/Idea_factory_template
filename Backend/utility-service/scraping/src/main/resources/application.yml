@@ -17,4 +17,4 @@ playwright:
 
 logging:
   level:
-    com.interviewcoach.utility: WARN
+    com.ideafactory.utility: WARN

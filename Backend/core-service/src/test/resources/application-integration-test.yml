@@ -51,7 +51,7 @@ management:
 # Logging
 logging:
   level:
-    com.interviewcoach: INFO
+    com.ideafactory: INFO
     org.springframework: WARN
     org.hibernate: WARN
 

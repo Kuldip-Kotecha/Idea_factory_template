@@ -10,12 +10,12 @@
  <relativePath/>
  </parent>
 
- <groupId>com.interviewcoach</groupId>
+ <groupId>com.ideafactory</groupId>
  <artifactId>utility-service</artifactId>
  <version>0.0.1-SNAPSHOT</version>
  <packaging>pom</packaging>
  <name>utility-service</name>
- <description>Utility Microservice for Interview Coach - Parent POM</description>
+ <description>Utility Microservice for Idea Factory - Parent POM</description>
 
 <modules>
   <module>parent</module>

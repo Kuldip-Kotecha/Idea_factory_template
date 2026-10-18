@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-  <groupId>com.interviewcoach</groupId>
+  <groupId>com.ideafactory</groupId>
   <artifactId>utility-service</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   </parent>
@@ -16,17 +16,17 @@
 
 <dependencies>
   <dependency>
-  <groupId>com.interviewcoach</groupId>
+  <groupId>com.ideafactory</groupId>
   <artifactId>utility-ai</artifactId>
   <version>${project.version}</version>
   </dependency>
   <dependency>
-  <groupId>com.interviewcoach</groupId>
+  <groupId>com.ideafactory</groupId>
   <artifactId>utility-tts</artifactId>
   <version>${project.version}</version>
   </dependency>
   <dependency>
-  <groupId>com.interviewcoach</groupId>
+  <groupId>com.ideafactory</groupId>
   <artifactId>utility-scraping</artifactId>
   <version>${project.version}</version>
   </dependency>

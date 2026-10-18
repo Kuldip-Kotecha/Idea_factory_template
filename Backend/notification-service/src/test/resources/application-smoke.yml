@@ -45,5 +45,5 @@ management:
 
 logging:
   level:
-    com.interviewcoach: INFO
+    com.ideafactory: INFO
     org.springframework: WARN

@@ -32,4 +32,4 @@ management:
 
 logging:
   level:
-    com.interviewcoach.media: WARN
+    com.ideafactory.media: WARN

@@ -36,7 +36,7 @@ spring:
 
 logging:
   level:
-    com.interviewcoach.media: DEBUG
+    com.ideafactory.media: DEBUG
 
 management:
   endpoints:

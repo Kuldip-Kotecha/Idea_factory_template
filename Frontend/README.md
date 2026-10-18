@@ -1,22 +1,23 @@
-# InterviewCoach - Angular Frontend
+# Idea Factory - Angular Frontend
 
-This directory contains the client-side application for the InterviewCoach platform. It is built with **Angular 18** and styled with **TailwindCSS**, providing a modern, responsive user interface for AI-driven mock interviews.
+This directory contains the client-side application for the Idea Factory platform template. It is built with **Angular 18** and styled with **TailwindCSS**, providing a modern, responsive, and secure foundation for full-stack applications.
 
 ## 🛠️ Tech Stack
 
-- **Framework**: Angular 18
-- **Styling**: TailwindCSS
-- **State Management**: RxJS
-- **Charts**: Chart.js / ng2-charts
-- **HTTP Client**: Angular HttpClient
+- **Framework**: Angular 18 (Standalone Components)
+- **Styling**: TailwindCSS with modern dark/light UI
+- **State Management**: RxJS & Reactive Signals
+- **Routing**: Angular Router with Auth & Role Guards
+- **HTTP Client**: Angular HttpClient with JWT Interceptors
+- **Authentication**: JWT & Google OAuth2 SSO integration
 
 ## ✨ Features
 
-- **Interactive Wizard**: Step-by-step setup for interview sessions.
-- **Audio/Video Interface**: Real-time interaction with the AI interviewer using Web Audio API.
-- **Dashboard**: Visual progress tracking and recent activity.
-- **Reports**: Detailed breakdown of interview performance with scoring.
-- **Profile & Onboarding**: Resume upload, AI parsing, and target role configuration.
+- **Authentication & Authorization**: Pre-configured login, signup, password reset, email verification, and Google OAuth2 login.
+- **Role-Based Access Control**: Route guards (`auth.guard.ts`, `role.guard.ts`) and role-based UI conditional rendering (`ROLE_USER`, `ROLE_ADMIN`).
+- **User Profile Management**: User profile view and update screens.
+- **Empty Dashboard & Extensible Slots**: Ready-to-implement dashboard cards, metrics, and navigation placeholders for business features.
+- **API Communication & Resilience**: Centralized HTTP services, environment configs, and health-check monitoring.
 
 ## 📋 Prerequisites
 
@@ -44,7 +45,7 @@ npm start
 
 Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
-> **Note**: This application expects the backend API to be running at `http://localhost:8080`. Start the backend from [`Backend/`](../Backend) first.
+> **Note**: This application expects the API Gateway to be running at `http://localhost:8080`. Start the backend services first.
 
 ## 🏗️ Build
 
@@ -66,9 +67,8 @@ npm test
 
 ## 📁 Project Structure
 
-- `src/app/pages/` — Core application pages (Dashboard, Wizard, Interview, Report, Profile)
-- `src/app/services/` — API services for communicating with the backend
-- `src/app/components/` — Shared UI components
-- `src/environments/` — Environment configurations (API URLs, keys)
-- `AGENTS.md` — Frontend development conventions
-- `UX-PRINCIPLES.md` — UX design principles
+- `src/app/pages/` — Application pages (Dashboard, Login, Signup, Profile, Admin Users, Password Reset)
+- `src/app/services/` — API services (`AuthService`, `UserService`, `AdminService`)
+- `src/app/components/` — Shared, reusable UI components (Brand Logo, Modals, Tables)
+- `src/app/guards/` — Route guards for authentication and authorization
+- `src/environments/` — Environment configurations (`environment.ts`, `environment.prod.ts`)

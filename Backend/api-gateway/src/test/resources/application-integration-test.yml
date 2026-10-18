@@ -54,4 +54,4 @@ spring:
 logging:
   level:
     org.springframework.cloud.gateway: WARN
-    com.interviewcoach.gateway: INFO
+    com.ideafactory.gateway: INFO

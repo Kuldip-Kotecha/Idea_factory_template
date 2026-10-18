@@ -4,6 +4,212 @@ Welcome to the **Idea Factory Template**. This document is your comprehensive op
 
 ---
 
+## 🎯 Immediate First Tasks for Every New Application
+
+When creating a new project from this template, complete these two foundational tasks first:
+
+| Order | Priority Task | Purpose | Primary Files |
+| :--- | :--- | :--- | :--- |
+| **Task 1** | [**Configure Google OAuth Credentials**](#task-1-configure-google-oauth-credentials) | Connect your application to Google Cloud OAuth for secure SSO | `Other/Infrastructure/.env`, `Backend/user-service/src/main/resources/application.yml` |
+| **Task 2** | [**Replace Base Package Name**](#task-2-replace-base-package-name) | Rename `com.ideafactory` to your company / product package | All backend modules (`pom.xml`, `src/main/java`, `src/test/java`) |
+
+---
+
+## Task 1: Configure Google OAuth Credentials
+
+The template comes pre-configured with Spring Security OAuth2 Client integration in `user-service`. The application boots safely even if Google credentials are not yet configured (using fallback placeholders). Follow this guide to enable live Google SSO.
+
+### 1. OAuth Architecture Overview
+
+```text
+[ Browser / Angular (Port 4200) ]
+        │
+   1. Clicks "Sign in with Google"
+        │
+        ▼
+[ API Gateway (Port 8080) ] ── (Routes /oauth2/**) ──► [ User Service (Port 8081) ]
+                                                              │
+                                                        2. Redirects to Google
+                                                              │
+                                                              ▼
+                                                   [ Google Accounts Auth ]
+                                                              │
+                                                        3. User Authenticates
+                                                              │
+                                                              ▼
+[ User Service (OAuth2LoginSuccessHandler) ] ◄── 4. Google Callback with Auth Code
+        │
+   5. Exchanges Code for Tokens & Fetches Profile
+   6. Finds or Registers User in `app_users` (Assigns ROLE_USER)
+   7. Generates Application JWT
+        │
+   8. Redirects to Frontend: http://localhost:4200/login?token=<JWT>
+        │
+        ▼
+[ Angular Frontend ]
+   9. Captures token from URL params, stores in localStorage, navigates to /dashboard
+```
+
+### 2. Google Cloud Console Walkthrough
+
+1. **Access Google Cloud Console**: Navigate to [https://console.cloud.google.com/](https://console.cloud.google.com/) and log in.
+2. **Create / Select Project**:
+   - Click the project dropdown in the top navigation bar.
+   - Click **New Project**, name it (e.g., `my-new-application`), and click **Create**.
+3. **Configure OAuth Consent Screen**:
+   - Go to **APIs & Services** > **OAuth consent screen**.
+   - Select **External** (accessible to any Google account) and click **Create**.
+   - **App Information**:
+     - *App name*: Your application name (e.g., `Idea Factory App`).
+     - *User support email*: Your email address.
+   - **Developer Contact Information**: Provide your email address.
+   - Click **Save and Continue**.
+4. **Define Scopes**:
+   - Click **Add or Remove Scopes**.
+   - Select `.../auth/userinfo.email`, `.../auth/userinfo.profile`, and `openid`.
+   - Click **Update** and **Save and Continue**.
+5. **Test Users (Testing Mode)**:
+   - While the app is in "Testing" status, add the email addresses of developer/tester Google accounts.
+   - Click **Save and Continue**.
+6. **Create OAuth 2.0 Client ID**:
+   - Go to **APIs & Services** > **Credentials**.
+   - Click **+ Create Credentials** > **OAuth client ID**.
+   - Application type: Select **Web application**.
+   - Name: `Web Client (Development)`.
+7. **Authorized JavaScript Origins**:
+   - Add: `http://localhost:4200` (Angular Frontend)
+   - Add: `http://localhost:8080` (API Gateway)
+8. **Authorized Redirect URIs**:
+   - Add: `http://localhost:8080/login/oauth2/code/google` *(Primary gateway route)*
+   - Add: `http://localhost:8081/login/oauth2/code/google` *(Direct user-service route for standalone testing)*
+9. **Copy Credentials**:
+   - Note the generated **Client ID** and **Client Secret**.
+
+### 3. Environment Configuration
+
+Add the credentials to your environment variables or local `.env` file:
+
+```bash
+# In Other/Infrastructure/.env or your system environment:
+GOOGLE_CLIENT_ID=your-actual-client-id.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=your-actual-client-secret
+```
+
+In `Backend/user-service/src/main/resources/application.yml`, the service references these variables with safe defaults:
+
+```yaml
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID:google-client-id-placeholder}
+            client-secret: ${GOOGLE_CLIENT_SECRET:google-client-secret-placeholder}
+            scope:
+              - openid
+              - profile
+              - email
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+```
+
+### 4. Local Testing & Verification
+
+1. Start the backend services (`api-gateway` on port 8080 and `user-service` on port 8081).
+2. Start the frontend (`npm start` in `Frontend/` on port 4200).
+3. Open `http://localhost:4200/login` in your browser.
+4. Click **Continue with Google**.
+5. You will be redirected to Google Accounts. Select your test user account.
+6. Upon authentication, you will be redirected back through `http://localhost:8080/login/oauth2/code/google` to `http://localhost:4200/login?token=eyJhbGciOi...` and then smoothly transitioned to `http://localhost:4200/dashboard`.
+
+### 5. Role Mapping & RBAC Behavior
+
+- **Automatic User Provisioning**: If a user logs in via Google for the first time, `OAuth2LoginSuccessHandler` automatically registers a user record in `app_users.users` with `isVerified = true` and `provider = "GOOGLE"`.
+- **Role Guarantee**: New Google accounts are assigned **`ROLE_USER`** by default.
+- **Security Guardrail**: Google OAuth **never** grants administrative privileges (`ROLE_ADMIN`) automatically. Admin promotions must be performed explicitly by an existing admin via the Admin User Management panel or directly in the database.
+
+### 6. Error Handling & Troubleshooting
+
+| Error | Cause | Resolution |
+| :--- | :--- | :--- |
+| `redirect_uri_mismatch` (400) | The callback URI does not match Google Cloud Console settings | Ensure `http://localhost:8080/login/oauth2/code/google` is in Authorized Redirect URIs |
+| `access_denied` | User cancelled consent or not in Test Users list | Add the Google account to the Test Users list in OAuth Consent Screen |
+| `invalid_client` | Missing or incorrect Client Secret | Verify `GOOGLE_CLIENT_SECRET` in `.env` or system environment |
+| Blank screen after login | Frontend not handling `?token=` parameter | Ensure `LoginComponent` has `this.route.queryParams` subscription |
+
+### 7. How to Disable Google Login
+
+If your project only requires traditional username/password authentication:
+1. Leave `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` unset (the placeholders prevent boot failures).
+2. In `Frontend/src/app/pages/login/login.component.html`, hide or remove the Google login button.
+
+---
+
+## Task 2: Replace Base Package Name
+
+The template default package is `com.ideafactory`. When launching your real product, follow these steps to rename the package cleanly across the repository.
+
+### Step 1: Choose Your Package Identifier
+Example: `com.mycompany.myproduct`
+
+### Step 2: Global Search and Replace in Java Files
+Replace all instances of:
+- `com.ideafactory` ➔ `com.mycompany.myproduct`
+
+In PowerShell:
+```powershell
+Get-ChildItem -Path "Backend" -Recurse -Filter "*.java" | ForEach-Object {
+    (Get-Content $_.FullName) -replace 'com\.ideafactory', 'com.mycompany.myproduct' | Set-Content $_.FullName
+}
+```
+
+In Linux / macOS:
+```bash
+find Backend -name "*.java" -exec sed -i 's/com\.ideafactory/com.mycompany.myproduct/g' {} +
+```
+
+### Step 3: Move Directory Structure
+Each Java source folder must reflect the new package path:
+
+Example for Windows PowerShell:
+```powershell
+Get-ChildItem -Path "Backend" -Recurse -Directory -Filter "ideafactory" | ForEach-Object {
+    $parent = $_.Parent.FullName
+    Rename-Item -Path $_.FullName -NewName "myproduct"
+}
+```
+
+If adding an intermediate company segment (`com/mycompany/myproduct`):
+1. In each module's `src/main/java/com/` and `src/test/java/com/`:
+2. Create folder `mycompany` and move `myproduct` inside it.
+
+### Step 4: Update Maven POM Files
+Replace `<groupId>com.ideafactory</groupId>` with `<groupId>com.mycompany.myproduct</groupId>` across all `pom.xml` files:
+
+- `Backend/pom.xml` (Root Parent POM)
+- `Backend/api-gateway/pom.xml`
+- `Backend/user-service/pom.xml`
+- `Backend/core-service/pom.xml`
+- `Backend/media-service/pom.xml`
+- `Backend/notification-service/pom.xml`
+- `Backend/utility-service/pom.xml`
+- `Backend/utility-service/parent/pom.xml`
+- `Backend/utility-service/ai/pom.xml`
+- `Backend/utility-service/scraping/pom.xml`
+- `Backend/utility-service/tts/pom.xml`
+
+### Step 5: Update Configuration Files
+Check `Backend/*/src/main/resources/application*.yml` for any explicit package scans or logger configurations and replace `com.ideafactory` with your new package name.
+
+### Step 6: Verify Build & Tests
+```bash
+cd Backend
+mvn clean test-compile
+mvn test
+```
+
+---
+
 ## Table of Contents
 1. [Architecture Overview](#1-architecture-overview)
 2. [Prerequisites & Local Environment Setup](#2-prerequisites--local-environment-setup)
@@ -137,16 +343,16 @@ From the `Backend/` directory:
 # Package all services
 mvn clean package -DskipTests
 
-# Run User Service
+# Run User Service (Port 8081)
 cd user-service && mvn spring-boot:run
 
-# Run Core Service (in a second terminal)
+# Run Core Service (Port 8082, in a second terminal)
 cd core-service && mvn spring-boot:run
 
-# Run API Gateway (in a third terminal)
+# Run API Gateway (Port 8080, in a third terminal)
 cd api-gateway && mvn spring-boot:run
 
-# Run Notification Service (in a fourth terminal)
+# Run Notification Service (Port 8083, in a fourth terminal)
 cd notification-service && mvn spring-boot:run
 ```
 
@@ -174,7 +380,7 @@ API calls to `/api/**`, `/oauth2/**`, and `/media/**` are automatically forwarde
 
 ## 7. Full-Stack Local Development with Docker
 
-To boot the entire full-stack ecosystem (MySQL, API Gateway, all 4 microservices, and Frontend Nginx) with a single command:
+To boot the entire full-stack ecosystem (MySQL, API Gateway, all microservices, and Frontend Nginx) with a single command:
 
 ```bash
 cd Other/Infrastructure
@@ -209,7 +415,7 @@ docker compose -f docker-compose.infra.yml logs -f
 ### Adding a New Business Feature
 To implement a new business idea:
 1. **Database Schema**: Add a migration script in `Other/Database/schemas/` (e.g., `03_create_orders_schema.sql`).
-2. **Backend Domain Entity**: Create the JPA entity in `Backend/core-service/src/main/java/com/interviewcoach/core/entity/`.
+2. **Backend Domain Entity**: Create the JPA entity in `Backend/core-service/src/main/java/com/ideafactory/core/entity/`.
 3. **Repository**: Create a Spring Data JPA repository extending `JpaRepository`.
 4. **Service**: Implement domain logic with transaction boundaries (`@Transactional`).
 5. **Controller**: Expose REST endpoints under `/api/core/<resource>` with DTO validation (`@Valid`).
