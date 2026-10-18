@@ -1,0 +1,85 @@
+<div class="min-h-screen bg-[#0F172A] text-white font-sans selection:bg-indigo-500/30">
+        
+    <!-- Custom Navbar -->
+    <nav class="absolute top-0 w-full z-50 py-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <a routerLink="/" class="inline-flex items-center hover:opacity-80 transition-opacity">
+                <app-brand-logo title="IdeaFactory" class="w-40 md:w-44"></app-brand-logo>
+            </a>
+            <div class="flex items-center gap-4">
+                <a routerLink="/" class="text-sm font-medium text-slate-300 hover:text-white transition-colors">Home</a>
+                <a routerLink="/login" class="text-sm font-medium text-slate-300 hover:text-white transition-colors">Sign In</a>
+                <a routerLink="/signup" class="hidden md:block px-6 py-2.5 rounded-full text-sm font-bold bg-indigo-500 hover:bg-indigo-600 text-white transition-all shadow-[0_0_20px_rgba(99,102,241,0.5)]">
+                    Get Started
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <div class="pt-32 pb-16 text-center px-6 border-b border-slate-800 bg-[#1E293B]/30">
+        <h1 class="text-3xl md:text-5xl font-extrabold mb-4">Contact Support</h1>
+        <p class="text-slate-400 max-w-xl mx-auto text-lg">
+            Have questions about configuring your template or deploying to production?
+            <br class="hidden md:inline"/>
+            <span class="text-sm">Need help getting started? <a routerLink="/faq" class="text-indigo-400 hover:text-white underline">Check our Documentation & FAQ</a> first.</span>
+        </p>
+    </div>
+
+    <div class="max-w-2xl mx-auto px-6 py-12">
+            
+        <!-- Success Message -->
+        <div *ngIf="successMsg" #successMessage tabindex="-1" role="alert" class="p-6 bg-green-500/10 border border-green-500/30 rounded-2xl text-center space-y-4 animate-fade-in focus:outline-none focus:ring-2 focus:ring-green-500/50">
+            <div class="w-16 h-16 bg-green-500/20 text-green-400 rounded-full flex items-center justify-center mx-auto">
+                <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+            </div>
+            <h3 class="text-2xl font-bold text-white">Message Sent!</h3>
+            <p class="text-slate-300">We've received your inquiry and will get back to you shortly.</p>
+            <button (click)="successMsg = false; resetForm()" class="text-indigo-400 font-bold hover:text-white mt-2">Send another message</button>
+        </div>
+
+        <!-- Contact Form -->
+        <form *ngIf="!successMsg" (ngSubmit)="onSubmit()" #contactForm="ngForm" class="space-y-6">
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="space-y-1.5">
+                    <label class="block text-sm font-bold text-slate-300 ml-1">Your Name</label>
+                    <input name="name" [(ngModel)]="data.name" type="text" placeholder="John Doe" class="input-field" required maxlength="100">
+                </div>
+                <div class="space-y-1.5">
+                    <label class="block text-sm font-bold text-slate-300 ml-1">Email Address</label>
+                    <input name="email" [(ngModel)]="data.email" type="email" placeholder="you@example.com" class="input-field" required maxlength="255">
+                </div>
+            </div>
+
+            <div class="space-y-1.5">
+                <label class="block text-sm font-bold text-slate-300 ml-1">Subject</label>
+                <div class="relative">
+                    <select name="subject" [(ngModel)]="data.subject" class="input-field appearance-none cursor-pointer" required>
+                        <option value="" disabled selected>Select an issue...</option>
+                        <option value="Technical Setup / Docker">Technical Setup / Docker</option>
+                        <option value="Database Migration / Schemas">Database Migration / Schemas</option>
+                        <option value="Authentication & Security">Authentication & Security</option>
+                        <option value="Other Inquiries">Other Inquiries</option>
+                    </select>
+                    <div class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-1.5">
+                <label class="block text-sm font-bold text-slate-300 ml-1">Message</label>
+                <textarea name="message" [(ngModel)]="data.message" rows="5" placeholder="Describe what you need help with..." class="input-field" required maxlength="2000"></textarea>
+            </div>
+
+            <div *ngIf="error" #errorMessage tabindex="-1" role="alert" class="p-4 bg-red-500/10 border border-red-500/30 rounded-xl text-red-400 text-sm focus:outline-none focus:ring-2 focus:ring-red-500/50">
+                {{ error }}
+            </div>
+
+            <button type="submit" [disabled]="loading" class="w-full py-4 rounded-xl font-bold bg-indigo-500 hover:bg-indigo-600 text-white transition-all shadow-lg shadow-indigo-500/20 disabled:opacity-50">
+                {{ loading ? 'Sending...' : 'Send Message' }}
+            </button>
+        </form>
+    </div>
+</div>

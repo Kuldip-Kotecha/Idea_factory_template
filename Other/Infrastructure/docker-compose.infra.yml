@@ -1,0 +1,36 @@
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: app-redis
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes
+    volumes:
+      - redis-infra-data:/data
+    networks:
+      - app-network
+
+  activemq:
+    image: apache/activemq-classic:latest
+    container_name: app-activemq
+    ports:
+      - "61616:61616"
+      - "8161:8161"
+    networks:
+      - app-network
+
+  zipkin:
+    image: openzipkin/zipkin:latest
+    container_name: app-zipkin
+    ports:
+      - "9411:9411"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    name: app-network
+    driver: bridge
+
+volumes:
+  redis-infra-data:

@@ -1,0 +1,54 @@
+server:
+  port: 8084
+
+jwt:
+  secret: ${JWT_SECRET}
+
+spring:
+  threads:
+    virtual:
+      enabled: true
+  application:
+    name: notification-service
+  data:
+    redis:
+      host: ${SPRING_DATA_REDIS_HOST:redis}
+      port: ${SPRING_DATA_REDIS_PORT:6379}
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${SPRING_MAIL_USERNAME:placeholder}
+    password: ${SPRING_MAIL_PASSWORD:placeholder}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+logging:
+  level:
+    com.interviewcoach.notification: DEBUG
+
+app:
+  notification:
+    email-from: ${APP_NOTIFICATION_EMAIL_FROM:InterviewCoach2025@gmail.com}
+    support-email: ${APP_NOTIFICATION_SUPPORT_EMAIL:support@interviewcoach.com}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: when-authorized
+  tracing:
+    sampling:
+      probability: 0.1
+  zipkin:
+    tracing:
+      endpoint: "${MANAGEMENT_ZIPKIN_TRACING_ENDPOINT}"
+
+api:
+  version: v1

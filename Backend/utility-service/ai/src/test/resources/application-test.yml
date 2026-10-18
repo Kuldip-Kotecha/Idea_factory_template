@@ -1,0 +1,40 @@
+server:
+  port: 8084
+
+spring:
+  application:
+    name: utility-service-test
+
+ai:
+  api-key: dummy
+  model: dummy
+  base-url: http://dummy
+tts:
+  api-key: dummy
+  model: dummy
+  voice: dummy
+  base-url: http://dummy
+
+jwt:
+  secret: test-secret-key-for-testing-purposes-only-12345678901234567890
+
+management:
+  tracing:
+    sampling:
+      probability: 0.0
+  zipkin:
+    tracing:
+      endpoint: http://localhost:9411/api/v2/spans
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      huggingface:
+        registerHealthIndicator: false
+        slidingWindowSize: 5
+        minimumNumberOfCalls: 3
+        failureRateThreshold: 50
+
+logging:
+  level:
+    com.interviewcoach.utility: WARN

@@ -1,0 +1,20 @@
+server:
+  port: ${APP_PORT:8085}
+
+spring:
+  threads:
+    virtual:
+      enabled: true
+  application:
+    name: utility-service-scraping
+  config:
+    import: optional:file:../.env
+
+playwright:
+  headless: ${PLAYWRIGHT_HEADLESS:true}
+  slow-mo: ${PLAYWRIGHT_SLOW_MO:100}
+  timeout: ${PLAYWRIGHT_TIMEOUT:30000}
+
+logging:
+  level:
+    com.interviewcoach.utility: WARN

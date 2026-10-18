@@ -1,0 +1,210 @@
+server:
+  port: 8080
+
+jwt:
+  secret: ${JWT_SECRET}
+
+api:
+  version: v1
+
+app:
+  fallback:
+    core-service:
+      error: "Core business service is temporarily unavailable"
+      message: "Please try again shortly"
+    utility-service:
+      error: "Utility service is temporarily unavailable"
+      message: "Processing is delayed. Please try again shortly"
+    media-service:
+      error: "Media service is temporarily unavailable"
+      message: "Media processing is delayed. Please try again shortly"
+    user-service:
+      error: "User service is temporarily unavailable"
+      message: "Authentication is temporarily unavailable. Please try again shortly"
+    notification-service:
+      error: "Notification service is temporarily unavailable"
+      message: "Email delivery is delayed. Your request will be processed shortly"
+  services:
+    core-service: ${CORE_SERVICE_URL}
+    user-service: ${USER_SERVICE_URL}
+    media-service: ${MEDIA_SERVICE_URL}
+    utility-service: ${UTILITY_SERVICE_URL}
+    notification-service: ${NOTIFICATION_SERVICE_URL}
+  frontend:
+    url: "${APP_FRONTEND_URL:http://localhost:4200}"
+
+spring:
+  threads:
+    virtual:
+      enabled: true
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        # OAuth2 and Auth Routes
+        - id: oauth-login
+          uri: ${USER_SERVICE_URL:http://localhost:8083}
+          predicates:
+            - Path=/oauth2/**, /login/**
+        - id: user-service-auth
+          uri: ${USER_SERVICE_URL:http://localhost:8083}
+          predicates:
+            - Path=/api/auth/**
+
+        # User Management Routes
+        - id: user-service
+          uri: ${USER_SERVICE_URL:http://localhost:8083}
+          predicates:
+            - Path=/api/users/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: user-service
+                fallbackUri: forward:/fallback/user-service
+
+        # Core Business Service Routes
+        - id: core-service
+          uri: ${CORE_SERVICE_URL:http://localhost:8081}
+          predicates:
+            - Path=/api/core/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: core-service
+                fallbackUri: forward:/fallback/core-service
+
+        # Notification Service Routes
+        - id: notification-service
+          uri: ${NOTIFICATION_SERVICE_URL:http://localhost:8084}
+          predicates:
+            - Path=/notifications/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: notification-service
+                fallbackUri: forward:/fallback/notification-service
+
+        # Utility Service Routes
+        - id: utility-service
+          uri: ${UTILITY_SERVICE_URL:http://localhost:8085}
+          predicates:
+            - Path=/api/ai/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: utility-service
+                fallbackUri: forward:/fallback/utility-service
+
+        # Media Service Routes (Optional)
+        - id: media-service
+          uri: ${MEDIA_SERVICE_URL:http://localhost:8082}
+          predicates:
+            - Path=/media/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: media-service
+                fallbackUri: forward:/fallback/media-service
+
+        # Actuator Reverse Proxies
+        - id: user-service-actuator
+          uri: ${USER_SERVICE_URL:http://localhost:8083}
+          predicates:
+            - Path=/api/users/actuator/**
+          filters:
+            - RewritePath=/api/users/actuator/?(?<segment>.*), /actuator/$\{segment}
+
+        - id: core-service-actuator
+          uri: ${CORE_SERVICE_URL:http://localhost:8081}
+          predicates:
+            - Path=/api/core/actuator/**
+          filters:
+            - RewritePath=/api/core/actuator/?(?<segment>.*), /actuator/$\{segment}
+
+        - id: notification-service-actuator
+          uri: ${NOTIFICATION_SERVICE_URL:http://localhost:8084}
+          predicates:
+            - Path=/notifications/actuator/**
+          filters:
+            - RewritePath=/notifications/actuator/?(?<segment>.*), /actuator/$\{segment}
+
+        - id: utility-service-actuator
+          uri: ${UTILITY_SERVICE_URL:http://localhost:8085}
+          predicates:
+            - Path=/api/ai/actuator/**
+          filters:
+            - RewritePath=/api/ai/actuator/?(?<segment>.*), /actuator/$\{segment}
+
+        - id: media-service-actuator
+          uri: ${MEDIA_SERVICE_URL:http://localhost:8082}
+          predicates:
+            - Path=/media/actuator/**
+          filters:
+            - RewritePath=/media/actuator/?(?<segment>.*), /actuator/$\{segment}
+
+logging:
+  level:
+    org.springframework.cloud.gateway: INFO
+    org.springframework.web.server.adapter.HttpWebHandlerAdapter: INFO
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      core-service:
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10s
+        permittedNumberOfCallsInHalfOpenState: 3
+      utility-service:
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 15s
+        permittedNumberOfCallsInHalfOpenState: 3
+      media-service:
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10s
+        permittedNumberOfCallsInHalfOpenState: 3
+      user-service:
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10s
+        permittedNumberOfCallsInHalfOpenState: 3
+      notification-service:
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10s
+        permittedNumberOfCallsInHalfOpenState: 3
+  timelimiter:
+    instances:
+      core-service:
+        timeoutDuration: 30s
+      utility-service:
+        timeoutDuration: 60s
+      media-service:
+        timeoutDuration: 30s
+      user-service:
+        timeoutDuration: 15s
+      notification-service:
+        timeoutDuration: 15s
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,info,metrics"
+  endpoint:
+    health:
+      show-details: always
+  tracing:
+    sampling:
+      probability: 0.1
+  zipkin:
+    tracing:
+      endpoint: "${MANAGEMENT_ZIPKIN_TRACING_ENDPOINT:http://localhost:9411/api/v2/spans}"

@@ -1,0 +1,22 @@
+Analyze the speaker's prosody and delivery from the transcription.
+
+Transcription:
+{{transcription}}
+
+Speaking Rate: {{speaking_rate}}
+Pitch Variance: {{pitch_variance}}
+
+Return JSON only. Do not include markdown, code fences, headings, or explanatory text.
+
+Use exactly this object shape:
+{
+  "positivityScore": 0.0,
+  "paceWpm": 0,
+  "empathyScore": 0.0
+}
+
+Rules:
+- positivityScore must be a number from 0.0 to 1.0 based on optimistic, constructive, and confident delivery.
+- paceWpm must be an integer estimated from the transcription and speaking-rate hint.
+- empathyScore must be a number from 0.0 to 1.0 based on warmth, clarity, and listener-friendly delivery.
+- If there is not enough evidence for a metric, return 0 for that metric.

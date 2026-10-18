@@ -1,0 +1,15 @@
+Analyze the conversation history and generate the next interview question.
+
+System Context:
+{{system_context}}
+
+Conversation History:
+{{history}}
+
+Generate exactly ONE next interview question that:
+1. Is appropriate for the interview stage
+2. Follows naturally from the conversation
+3. Is tailored to the candidate's background and the job requirements
+4. Must be a single question only - do NOT ask multiple questions
+
+IMPORTANT: Your entire response must be 1-2 sentences maximum. Output ONLY the question itself — no preamble, no commentary, no follow-up remarks.

@@ -1,0 +1,42 @@
+ <div class="min-h-screen flex items-center justify-center bg-[#0F172A] text-white p-4 font-sans selection:bg-teal-500/30">
+        <div class="absolute inset-0 bg-gradient-to-br from-indigo-900/10 via-black to-slate-900/10 pointer-events-none"></div>
+ 
+        <div class="relative w-full max-w-md bg-slate-900/50 backdrop-blur-xl border border-slate-700/50 rounded-2xl p-8 md:p-12 shadow-2xl text-center space-y-6">
+            
+            <div *ngIf="loading" class="space-y-4">
+                 <div class="w-16 h-16 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin mx-auto"></div>
+                 <h2 class="text-2xl font-bold">Verifying...</h2>
+            </div>
+ 
+            <div *ngIf="success" class="space-y-6 animate-fade-in">
+                <div class="w-20 h-20 mx-auto bg-green-500/20 rounded-full flex items-center justify-center text-green-400 mb-6">
+                    <svg class="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                </div>
+                <h1 class="text-3xl font-bold tracking-tight text-white">Email Verified!</h1>
+                <p class="text-slate-400">Your account has been successfully verified.</p>
+                
+                <a routerLink="/login" class="block w-full btn-primary bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold py-3.5 rounded-xl shadow-lg transform active:scale-[0.98] transition-all">
+                    Continue into the Gym
+                </a>
+            </div>
+ 
+            <div *ngIf="error" class="space-y-6 animate-fade-in">
+                <div class="w-20 h-20 mx-auto bg-red-500/20 rounded-full flex items-center justify-center text-red-400 mb-6">
+                    <svg class="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </div>
+                <h1 class="text-3xl font-bold tracking-tight text-white">Verification Failed</h1>
+                <p class="text-slate-400">{{ error }}</p>
+                
+ 
+                <div class="flex flex-col gap-3">
+                    <a routerLink="/signup" class="block w-full py-3 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-xl transition-all">Back to Sign Up</a>
+                    <a routerLink="/login" class="block text-indigo-400 hover:text-indigo-300 font-semibold text-sm">Return to Login</a>
+                </div>
+            </div>
+ 
+        </div>
+     </div>

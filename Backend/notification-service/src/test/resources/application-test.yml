@@ -1,0 +1,17 @@
+server:
+  port: 8084
+
+spring:
+  application:
+    name: notification-service-test
+  rabbitmq:
+    host: localhost
+    port: 5672
+
+jwt:
+  secret: test-secret-key-for-testing-purposes-only-12345678901234567890
+
+management:
+  zipkin:
+    tracing:
+      endpoint: http://localhost:9411/api/v2/spans

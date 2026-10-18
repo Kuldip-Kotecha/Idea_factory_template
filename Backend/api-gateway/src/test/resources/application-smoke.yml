@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: api-gateway-smoke
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: when_authorized
+
+JWT_SECRET: test-secret-key-for-testing-purposes-only-12345678901234567890
+
+app:
+  services:
+    core-service: http://localhost:8081
+    user-service: http://localhost:8082
+    media-service: http://localhost:8083
+    utility-service: http://localhost:8084
+    notification-service: http://localhost:8085

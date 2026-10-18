@@ -1,0 +1,14 @@
+Analyze the resume and provide a structured summary.
+
+Resume:
+{{resume_text}}
+
+Return a JSON object with:
+- name: Extracted full name (or "Not provided")
+- skills: Comma-separated list of technical and soft skills
+- experience: Summary of work experience (years and roles)
+- summary: 2-3 sentence professional summary
+- education: Highest education level
+- notable_accomplishments: Array of key achievements
+
+Return ONLY the JSON object, no additional text.

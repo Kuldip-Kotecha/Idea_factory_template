@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: tts-service-smoke
+
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+
+server:
+  port: 8085
+
+tts:
+  api-key: ${AI_TTS_API_KEY:test-api-key}
+  model: ${AI_TTS_MODEL:melotts}
+  voice: ${AI_TTS_VOICE:default}
+  base-url: ${AI_TTS_API_BASE_URL:https://api.cloudflare.com}
+
+management:
+  tracing:
+    sampling:
+      probability: 0.0
+
+logging:
+  level:
+    com.interviewcoach: INFO
+    org.springframework: WARN

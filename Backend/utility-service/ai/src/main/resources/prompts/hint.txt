@@ -1,0 +1,9 @@
+Based on the interview context and history, provide a helpful hint for the candidate.
+
+System Context:
+{{system_context}}
+
+Conversation History:
+{{history}}
+
+Provide a concise hint (1-2 sentences) that helps the candidate without giving away the complete answer. The hint should guide their thinking without being too obvious.

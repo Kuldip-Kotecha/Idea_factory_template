@@ -1,0 +1,60 @@
+spring:
+  application:
+    name: user-service-smoke
+
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+    database-platform: org.hibernate.dialect.H2Dialect
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: test-client-id
+            client-secret: test-client-secret
+
+server:
+  port: 8083
+
+jwt:
+  secret: test-secret-key-for-testing-purposes-only-12345678901234567890
+
+MEDIA_SERVICE_URL: http://localhost:8082
+
+management:
+  tracing:
+    sampling:
+      probability: 0.0
+
+logging:
+  level:
+    com.interviewcoach: INFO
+    org.springframework: WARN
+
+app:
+  storage:
+    type: cloudinary
+
+CLOUDINARY_CLOUD_NAME: test-cloud
+CLOUDINARY_API_KEY: test-key
+CLOUDINARY_API_SECRET: test-secret

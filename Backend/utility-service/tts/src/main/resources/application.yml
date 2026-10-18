@@ -1,0 +1,30 @@
+server:
+  port: ${APP_PORT:8085}
+
+spring:
+  threads:
+    virtual:
+      enabled: true
+  application:
+    name: utility-service-tts
+  config:
+    import: optional:file:../.env
+
+tts:
+  api-key: ${AI_TTS_API_KEY}
+  model: ${AI_TTS_MODEL:sonic-2}
+  voice: ${AI_TTS_VOICE:a0e99841-438c-4a64-b679-ae501e7d6091}
+  base-url: ${AI_TTS_API_BASE_URL:https://api.cartesia.ai}
+
+koroko:
+  base-url: ${AI_TTS_API_BASE_URL:http://kokoro-tts:8880}
+  speed: ${KOROKO_SPEED:1.0}
+  response-format: ${KOROKO_RESPONSE_FORMAT:mp3}
+
+logging:
+  level:
+    com.interviewcoach.utility: WARN
+
+cloudflare:
+  account-id: ${CLOUDFLARE_ACCOUNT_ID:}
+  api-token: ${CLOUDFLARE_API_TOKEN:}

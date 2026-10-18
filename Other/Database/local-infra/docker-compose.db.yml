@@ -1,0 +1,19 @@
+services:
+  mysql-db:
+    image: mysql:8.0
+    container_name: mysql-db
+    command: --innodb-buffer-pool-size=128M --max-connections=20
+    mem_limit: 512m
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ../init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+      - ../schemas/01_create_users_schema.sql:/docker-entrypoint-initdb.d/02-users.sql:ro
+      - ../schemas/02_create_core_starter_schema.sql:/docker-entrypoint-initdb.d/03-core.sql:ro
+
+volumes:
+  mysql-data:

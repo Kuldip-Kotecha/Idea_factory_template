@@ -1,0 +1,62 @@
+.perspective-1000 { perspective: 1000px; }
+.rotate-x-12 { transform: rotateX(12deg); }
+@keyframes bbox {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.hero-visual-shell {
+    contain: layout paint;
+}
+
+.deferred-section {
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 900px;
+}
+
+/* ========== CONCEPT 2: FLOATING DESK ========== */
+.desk-scene {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  aspect-ratio: 340 / 280;
+  animation: deskFloat 6s ease-in-out infinite;
+  filter: drop-shadow(0 30px 60px rgba(45, 212, 191, 0.15));
+}
+
+@keyframes deskFloat {
+  0%, 100% { transform: translateY(0px) rotate(-1deg); }
+  50% { transform: translateY(-20px) rotate(1deg); }
+}
+
+.desk-scene svg {
+  width: 100%;
+  height: 100%;
+}
+
+.desk-glow {
+  position: absolute;
+  bottom: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 20px;
+  background: radial-gradient(ellipse, rgba(45, 212, 191, 0.3), transparent 70%);
+  border-radius: 50%;
+  animation: shadowFloat 6s ease-in-out infinite;
+}
+
+@keyframes shadowFloat {
+  0%, 100% { transform: translateX(-50%) scaleX(1); opacity: 0.6; }
+  50% { transform: translateX(-50%) scaleX(0.7); opacity: 0.3; }
+}
+
+.screen-blink {
+  animation: screenBlink 3s ease-in-out infinite;
+}
+
+@keyframes screenBlink {
+  0%, 90%, 100% { opacity: 1; }
+  95% { opacity: 0.3; }
+}

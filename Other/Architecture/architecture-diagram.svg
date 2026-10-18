@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 1050" font-family="'Segoe UI', Arial, sans-serif">
+  <defs>
+    <style>
+      .title { font-size: 22px; font-weight: 700; fill: #1a1a2e; }
+      .section-title { font-size: 14px; font-weight: 700; fill: #1a1a2e; }
+      .label { font-size: 12px; fill: #333; }
+      .label-small { font-size: 10px; fill: #555; }
+      .label-white { font-size: 12px; fill: #fff; font-weight: 600; }
+      .label-white-sm { font-size: 10px; fill: #fff; }
+      .box { stroke-width: 2; rx: 8; ry: 8; }
+      .box-thick { stroke-width: 2.5; rx: 10; ry: 10; }
+      .dashed { stroke-dasharray: 6,4; }
+      .arrow { stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+      .arrow-red { stroke: #e74c3c; stroke-width: 2; fill: none; marker-end: url(#arrowhead-red); }
+      .arrow-blue { stroke: #2980b9; stroke-width: 2; fill: none; marker-end: url(#arrowhead-blue); }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#2980b9"/>
+    </marker>
+    <marker id="arrowhead-red" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#e74c3c"/>
+    </marker>
+    <marker id="arrowhead-blue" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#2980b9"/>
+    </marker>
+    <filter id="shadow" x="-3%" y="-3%" width="106%" height="110%">
+      <feDropShadow dx="1" dy="2" stdDeviation="3" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1400" height="1050" fill="#f8f9fb"/>
+
+  <!-- ==================== TITLE ==================== -->
+  <text x="700" y="35" text-anchor="middle" class="title">InterviewCoach — System Architecture</text>
+
+  <!-- ==================== COLUMN 1: TRIGGERS ==================== -->
+  <rect x="20" y="60" width="220" height="280" rx="12" ry="12" fill="#fff" stroke="#2980b9" stroke-width="2" filter="url(#shadow)"/>
+  <text x="130" y="88" text-anchor="middle" class="section-title">Triggers</text>
+
+  <!-- User box -->
+  <rect x="45" y="105" width="170" height="50" rx="8" ry="8" fill="#eaf2fb" stroke="#2980b9" stroke-width="1.5"/>
+  <text x="130" y="135" text-anchor="middle" class="label">👤 User (Angular SPA)</text>
+
+  <!-- Google OAuth2 box -->
+  <rect x="45" y="170" width="170" height="50" rx="8" ry="8" fill="#eaf2fb" stroke="#2980b9" stroke-width="1.5"/>
+  <text x="130" y="192" text-anchor="middle" class="label">🔑 Google OAuth2</text>
+  <text x="130" y="208" text-anchor="middle" class="label-small">(Authorization Code Flow)</text>
+
+  <!-- SSE Keepalive box -->
+  <rect x="45" y="235" width="170" height="50" rx="8" ry="8" fill="#eaf2fb" stroke="#2980b9" stroke-width="1.5"/>
+  <text x="130" y="257" text-anchor="middle" class="label">⏱ SSE Keepalive</text>
+  <text x="130" y="273" text-anchor="middle" class="label-small">@Scheduled every 14s</text>
+
+  <!-- ==================== COLUMN 2: FRONTEND ==================== -->
+  <rect x="270" y="60" width="200" height="280" rx="12" ry="12" fill="#fff" stroke="#2c3e50" stroke-width="2" filter="url(#shadow)"/>
+  <text x="370" y="88" text-anchor="middle" class="section-title" fill="#2c3e50">Frontend Host</text>
+
+  <!-- Angular box -->
+  <rect x="295" y="105" width="150" height="90" rx="8" ry="8" fill="#f5f7fa" stroke="#2c3e50" stroke-width="1.5"/>
+  <text x="370" y="135" text-anchor="middle" class="label" font-weight="700" font-size="14">Angular 17</text>
+  <text x="370" y="155" text-anchor="middle" class="label-small">Standalone Components</text>
+  <text x="370" y="170" text-anchor="middle" class="label-small">OnPush Change Detection</text>
+  <text x="370" y="185" text-anchor="middle" class="label-small">RxJS Streams</text>
+
+  <!-- Audio/Voice box -->
+  <rect x="295" y="210" width="150" height="55" rx="8" ry="8" fill="#f5f7fa" stroke="#2c3e50" stroke-width="1.5"/>
+  <text x="370" y="232" text-anchor="middle" class="label" font-weight="600">Web Audio API</text>
+  <text x="370" y="250" text-anchor="middle" class="label-small">SpeechRecognition + VAD</text>
+
+  <!-- ==================== COLUMN 3: API GATEWAY + BACKEND ==================== -->
+  <!-- Large Backend Host container -->
+  <rect x="500" y="60" width="520" height="640" rx="12" ry="12" fill="#fff" stroke="#2980b9" stroke-width="2.5" filter="url(#shadow)"/>
+  <text x="760" y="88" text-anchor="middle" class="section-title" font-size="16">Google Cloud Run — Backend Host</text>
+
+  <!-- Docker Container wrapper -->
+  <rect x="515" y="100" width="490" height="585" rx="10" ry="10" fill="#f0f7ff" stroke="#2980b9" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <text x="535" y="120" class="label-small" fill="#2980b9" font-weight="600">🐳 Docker Containers (multi-stage, Java 21 Temurin)</text>
+
+  <!-- ===== API Gateway ===== -->
+  <rect x="530" y="135" width="460" height="65" rx="8" ry="8" fill="#e8f4fd" stroke="#2980b9" stroke-width="1.5"/>
+  <text x="760" y="158" text-anchor="middle" class="label" font-weight="700" font-size="13">API Gateway (:8080) — Spring Cloud Gateway</text>
+  <text x="760" y="175" text-anchor="middle" class="label-small">20 path-based routes · CORS · Health aggregation · No JWT filter</text>
+
+  <!-- Arrows from Frontend to Gateway -->
+  <line x1="470" y1="150" x2="528" y2="150" class="arrow-blue"/>
+  <line x1="470" y1="170" x2="528" y2="165" class="arrow-blue"/>
+
+  <!-- ===== Microservices Row 1 ===== -->
+  <!-- Core Service -->
+  <rect x="530" y="215" width="145" height="120" rx="8" ry="8" fill="#fff" stroke="#27ae60" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="602" y="238" text-anchor="middle" class="label" font-weight="700" fill="#27ae60">Core Service</text>
+  <text x="602" y="252" text-anchor="middle" class="label-small">:8081</text>
+  <text x="602" y="272" text-anchor="middle" class="label-small">Interview CRUD</text>
+  <text x="602" y="286" text-anchor="middle" class="label-small">SSE Sessions</text>
+  <text x="602" y="300" text-anchor="middle" class="label-small">AI Orchestration</text>
+  <text x="602" y="314" text-anchor="middle" class="label-small">Report Generation</text>
+  <text x="602" y="328" text-anchor="middle" class="label-small">Web Scraping</text>
+
+  <!-- User Service -->
+  <rect x="685" y="215" width="145" height="120" rx="8" ry="8" fill="#fff" stroke="#8e44ad" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="757" y="238" text-anchor="middle" class="label" font-weight="700" fill="#8e44ad">User Service</text>
+  <text x="757" y="252" text-anchor="middle" class="label-small">:8083</text>
+  <text x="757" y="272" text-anchor="middle" class="label-small">OAuth2 + JWT Auth</text>
+  <text x="757" y="286" text-anchor="middle" class="label-small">User CRUD</text>
+  <text x="757" y="300" text-anchor="middle" class="label-small">Profile Mgmt</text>
+  <text x="757" y="314" text-anchor="middle" class="label-small">Resume Upload</text>
+  <text x="757" y="328" text-anchor="middle" class="label-small">Spring Security</text>
+
+  <!-- AI Service -->
+  <rect x="840" y="215" width="145" height="120" rx="8" ry="8" fill="#fff" stroke="#e67e22" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="912" y="238" text-anchor="middle" class="label" font-weight="700" fill="#e67e22">AI Service</text>
+  <text x="912" y="252" text-anchor="middle" class="label-small">:8085</text>
+  <text x="912" y="272" text-anchor="middle" class="label-small">LLM Text Generation</text>
+  <text x="912" y="286" text-anchor="middle" class="label-small">TTS Audio Gen</text>
+  <text x="912" y="300" text-anchor="middle" class="label-small">Resilience4j CB</text>
+  <text x="912" y="314" text-anchor="middle" class="label-small">Prompt Templates</text>
+  <text x="912" y="328" text-anchor="middle" class="label-small">Model Fallback</text>
+
+  <!-- ===== Microservices Row 2 ===== -->
+  <!-- Media Service -->
+  <rect x="530" y="350" width="145" height="110" rx="8" ry="8" fill="#fff" stroke="#16a085" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="602" y="373" text-anchor="middle" class="label" font-weight="700" fill="#16a085">Media Service</text>
+  <text x="602" y="387" text-anchor="middle" class="label-small">:8082</text>
+  <text x="602" y="407" text-anchor="middle" class="label-small">Audio Upload/Stream</text>
+  <text x="602" y="421" text-anchor="middle" class="label-small">Audio Merge</text>
+  <text x="602" y="435" text-anchor="middle" class="label-small">TTS Proxy</text>
+  <text x="602" y="449" text-anchor="middle" class="label-small">Local File Storage</text>
+
+  <!-- Notification Service -->
+  <rect x="685" y="350" width="145" height="110" rx="8" ry="8" fill="#fff" stroke="#c0392b" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="757" y="373" text-anchor="middle" class="label" font-weight="700" fill="#c0392b">Notification Svc</text>
+  <text x="757" y="387" text-anchor="middle" class="label-small">:8084</text>
+  <text x="757" y="407" text-anchor="middle" class="label-small">Email Delivery</text>
+  <text x="757" y="421" text-anchor="middle" class="label-small">Gmail SMTP</text>
+  <text x="757" y="435" text-anchor="middle" class="label-small">RabbitMQ Consumer</text>
+  <text x="757" y="449" text-anchor="middle" class="label-small">Plain Text Only</text>
+
+  <!-- ===== Internal Layers (shared) ===== -->
+  <rect x="530" y="480" width="455" height="100" rx="8" ry="8" fill="#f9f9f9" stroke="#bdc3c7" stroke-width="1"/>
+  <text x="757" y="500" text-anchor="middle" class="label" font-weight="600">Shared Internal Components</text>
+  <text x="600" y="520" text-anchor="middle" class="label-small">Controller → Service → Repository</text>
+  <text x="600" y="535" text-anchor="middle" class="label-small">OpenFeign Clients · RabbitMQ Listeners</text>
+  <text x="600" y="550" text-anchor="middle" class="label-small">Virtual Threads · SSE Keepalive (@Scheduled)</text>
+  <text x="900" y="520" text-anchor="middle" class="label-small">Global Exception Handler</text>
+  <text x="900" y="535" text-anchor="middle" class="label-small">Micrometer Brave Tracing</text>
+  <text x="900" y="550" text-anchor="middle" class="label-small">Jackson ObjectMapper</text>
+
+  <!-- ===== Database Layer ===== -->
+  <rect x="530" y="595" width="455" height="80" rx="8" ry="8" fill="#fdecea" stroke="#e74c3c" stroke-width="1.5"/>
+  <text x="757" y="618" text-anchor="middle" class="label" font-weight="700" fill="#e74c3c">MySQL Databases (HikariCP, ddl-auto: none)</text>
+  <text x="620" y="640" text-anchor="middle" class="label-small">Core: interviews, interview_messages</text>
+  <text x="760" y="640" text-anchor="middle" class="label-small">User: users</text>
+  <text x="900" y="640" text-anchor="middle" class="label-small">Media: (declared, unused)</text>
+
+  <!-- ==================== COLUMN 5: EXTERNAL SERVICES ==================== -->
+  <!-- External Services container -->
+  <rect x="1050" y="60" width="330" height="500" rx="12" ry="12" fill="#fff" stroke="#e67e22" stroke-width="2" filter="url(#shadow)"/>
+  <text x="1215" y="88" text-anchor="middle" class="section-title" fill="#e67e22">External Services &amp; APIs</text>
+
+  <!-- OpenRouter LLM -->
+  <rect x="1070" y="105" width="290" height="60" rx="8" ry="8" fill="#fef9e7" stroke="#e67e22" stroke-width="1.5"/>
+  <text x="1215" y="130" text-anchor="middle" class="label" font-weight="700" fill="#e67e22">✨ OpenRouter LLM API</text>
+  <text x="1215" y="150" text-anchor="middle" class="label-small">POST /api/v1/chat/completions · Bearer Auth</text>
+
+  <!-- Groq TTS -->
+  <rect x="1070" y="180" width="290" height="60" rx="8" ry="8" fill="#fef9e7" stroke="#e67e22" stroke-width="1.5"/>
+  <text x="1215" y="205" text-anchor="middle" class="label" font-weight="700" fill="#e67e22">🔊 Groq TTS API</text>
+  <text x="1215" y="225" text-anchor="middle" class="label-small">POST /openai/v1/audio/speech · WAV output</text>
+
+  <!-- Google OAuth2 -->
+  <rect x="1070" y="255" width="290" height="55" rx="8" ry="8" fill="#fef9e7" stroke="#e67e22" stroke-width="1.5"/>
+  <text x="1215" y="278" text-anchor="middle" class="label" font-weight="700" fill="#e67e22">🔑 Google OAuth2</text>
+  <text x="1215" y="296" text-anchor="middle" class="label-small">accounts.google.com · scopes: profile, email</text>
+
+  <!-- Gmail SMTP -->
+  <rect x="1070" y="325" width="290" height="55" rx="8" ry="8" fill="#fef9e7" stroke="#e67e22" stroke-width="1.5"/>
+  <text x="1215" y="348" text-anchor="middle" class="label" font-weight="700" fill="#e67e22">📧 Gmail SMTP</text>
+  <text x="1215" y="366" text-anchor="middle" class="label-small">smtp.gmail.com:587 · STARTTLS</text>
+
+  <!-- Local File Storage -->
+  <rect x="1070" y="395" width="290" height="55" rx="8" ry="8" fill="#fef9e7" stroke="#e67e22" stroke-width="1.5"/>
+  <text x="1215" y="418" text-anchor="middle" class="label" font-weight="700" fill="#e67e22">💾 Local File Storage</text>
+  <text x="1215" y="436" text-anchor="middle" class="label-small">/app/uploads/{userId}/{interviewId}/</text>
+
+  <!-- ==================== RABBITMQ ==================== -->
+  <rect x="500" y="720" width="520" height="120" rx="12" ry="12" fill="#fff" stroke="#f39c12" stroke-width="2" filter="url(#shadow)"/>
+  <text x="760" y="748" text-anchor="middle" class="section-title" fill="#f39c12">RabbitMQ (CloudAMQP) — Event-Driven Messaging</text>
+
+  <!-- RabbitMQ queues -->
+  <rect x="520" y="760" width="115" height="65" rx="6" ry="6" fill="#fef9e7" stroke="#f39c12" stroke-width="1.5"/>
+  <text x="577" y="782" text-anchor="middle" class="label-small" font-weight="600">user.events</text>
+  <text x="577" y="796" text-anchor="middle" class="label-small">TopicExchange</text>
+  <text x="577" y="812" text-anchor="middle" class="label-small">user.deleted</text>
+
+  <rect x="645" y="760" width="115" height="65" rx="6" ry="6" fill="#fef9e7" stroke="#f39c12" stroke-width="1.5"/>
+  <text x="702" y="782" text-anchor="middle" class="label-small" font-weight="600">notification-exchange</text>
+  <text x="702" y="796" text-anchor="middle" class="label-small">TopicExchange</text>
+  <text x="702" y="812" text-anchor="middle" class="label-small">notification.email</text>
+
+  <rect x="770" y="760" width="115" height="65" rx="6" ry="6" fill="#fef9e7" stroke="#f39c12" stroke-width="1.5"/>
+  <text x="827" y="782" text-anchor="middle" class="label-small" font-weight="600">Queues</text>
+  <text x="827" y="796" text-anchor="middle" class="label-small">core.user-archive</text>
+  <text x="827" y="812" text-anchor="middle" class="label-small">media.user-archive</text>
+
+  <rect x="895" y="760" width="115" height="65" rx="6" ry="6" fill="#fef9e7" stroke="#f39c12" stroke-width="1.5"/>
+  <text x="952" y="782" text-anchor="middle" class="label-small" font-weight="600">Jackson2Json</text>
+  <text x="952" y="796" text-anchor="middle" class="label-small">MessageConverter</text>
+  <text x="952" y="812" text-anchor="middle" class="label-small">No DLQ configured</text>
+
+  <!-- ==================== DATABASE VM ==================== -->
+  <rect x="500" y="860" width="520" height="100" rx="12" ry="12" fill="#fff" stroke="#e74c3c" stroke-width="2.5" filter="url(#shadow)"/>
+  <text x="760" y="885" text-anchor="middle" class="section-title" fill="#e74c3c">☁️ Cloud SQL (MySQL) — Database Layer</text>
+  <rect x="520" y="895" width="150" height="55" rx="6" ry="6" fill="#fdecea" stroke="#e74c3c" stroke-width="1.5"/>
+  <text x="595" y="918" text-anchor="middle" class="label-small" font-weight="600">Core DB</text>
+  <text x="595" y="934" text-anchor="middle" class="label-small">interviews</text>
+  <text x="595" y="946" text-anchor="middle" class="label-small">interview_messages</text>
+
+  <rect x="685" y="895" width="150" height="55" rx="6" ry="6" fill="#fdecea" stroke="#e74c3c" stroke-width="1.5"/>
+  <text x="760" y="918" text-anchor="middle" class="label-small" font-weight="600">User DB</text>
+  <text x="760" y="934" text-anchor="middle" class="label-small">users</text>
+  <text x="760" y="946" text-anchor="middle" class="label-small">HikariCP: max=20</text>
+
+  <rect x="850" y="895" width="150" height="55" rx="6" ry="6" fill="#fdecea" stroke="#e74c3c" stroke-width="1.5"/>
+  <text x="925" y="918" text-anchor="middle" class="label-small" font-weight="600">No Migration Tool</text>
+  <text x="925" y="934" text-anchor="middle" class="label-small">ddl-auto: none</text>
+  <text x="925" y="946" text-anchor="middle" class="label-small">Manual schema mgmt</text>
+
+  <!-- ==================== ARROWS ==================== -->
+  <!-- Triggers → Frontend -->
+  <line x1="240" y1="130" x2="268" y2="140" class="arrow-blue"/>
+  <line x1="240" y1="195" x2="268" y2="155" class="arrow-blue"/>
+
+  <!-- Frontend → Gateway -->
+  <line x1="470" y1="150" x2="528" y2="150" class="arrow-blue"/>
+
+  <!-- Gateway → Microservices -->
+  <line x1="760" y1="200" x2="760" y2="213" class="arrow-blue"/>
+  <line x1="600" y1="200" x2="600" y2="213" class="arrow-blue"/>
+  <line x1="912" y1="200" x2="912" y2="213" class="arrow-blue"/>
+
+  <!-- Microservices → External APIs -->
+  <line x1="985" y1="260" x2="1068" y2="135" class="arrow-blue"/>
+  <line x1="985" y1="280" x2="1068" y2="210" class="arrow-blue"/>
+  <line x1="830" y1="260" x2="1068" y2="283" class="arrow-blue"/>
+  <line x1="830" y1="380" x2="1068" y2="353" class="arrow-blue"/>
+  <line x1="675" y1="400" x2="1068" y2="423" class="arrow-blue"/>
+
+  <!-- Microservices → RabbitMQ -->
+  <line x1="760" y1="675" x2="760" y2="718" class="arrow-blue"/>
+
+  <!-- Microservices → Database -->
+  <line x1="760" y1="675" x2="760" y2="858" class="arrow-red"/>
+
+  <!-- ==================== LEGEND ==================== -->
+  <rect x="1050" y="580" width="330" height="140" rx="10" ry="10" fill="#fff" stroke="#bdc3c7" stroke-width="1.5"/>
+  <text x="1215" y="605" text-anchor="middle" class="section-title">Technology Stack</text>
+  <text x="1070" y="628" class="label-small">Spring Boot 3.2.3 · Java 21 · Maven 3.9</text>
+  <text x="1070" y="644" class="label-small">Spring Cloud Gateway · OpenFeign</text>
+  <text x="1070" y="660" class="label-small">Spring Data JPA · Hibernate · HikariCP</text>
+  <text x="1070" y="676" class="label-small">RabbitMQ · Resilience4j · Brave/Zipkin</text>
+  <text x="1070" y="692" class="label-small">Playwright 1.41 · Jsoup · PDFBox · POI</text>
+  <text x="1070" y="708" class="label-small">Docker (multi-stage) · Google Cloud Run</text>
+
+  <!-- ==================== FLOW ANNOTATIONS ==================== -->
+  <!-- Data flow labels -->
+  <text x="355" y="145" text-anchor="middle" class="label-small" fill="#2980b9" font-style="italic">HTTP/REST</text>
+  <text x="870" y="240" text-anchor="middle" class="label-small" fill="#e67e22" font-style="italic">Bearer Token</text>
+  <text x="870" y="310" text-anchor="middle" class="label-small" fill="#e67e22" font-style="italic">Bearer Token</text>
+  <text x="620" y="710" text-anchor="middle" class="label-small" fill="#f39c12" font-style="italic">AMQP 0-9-1</text>
+  <text x="870" y="770" text-anchor="middle" class="label-small" fill="#e74c3c" font-style="italic">JDBC (MySQL)</text>
+
+  <!-- Key flow description -->
+  <rect x="1050" y="735" width="330" height="100" rx="10" ry="10" fill="#eaf2fb" stroke="#2980b9" stroke-width="1.5"/>
+  <text x="1215" y="758" text-anchor="middle" class="section-title" fill="#2980b9">Key Data Flow</text>
+  <text x="1070" y="778" class="label-small">1. User speaks → Angular captures audio</text>
+  <text x="1070" y="794" class="label-small">2. Gateway routes to Core SSE session</text>
+  <text x="1070" y="810" class="label-small">3. Core → AI Service → OpenRouter LLM</text>
+  <text x="1070" y="826" class="label-small">4. AI response → SSE → Angular TTS (Groq)</text>
+
+</svg>

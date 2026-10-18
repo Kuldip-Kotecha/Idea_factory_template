@@ -1,0 +1,77 @@
+<div class="min-h-screen bg-[#0F172A] text-white font-sans selection:bg-teal-500/30">
+    
+    <!-- Custom Navbar -->
+    <nav class="absolute top-0 w-full z-50 py-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+            <a routerLink="/" class="inline-flex items-center hover:opacity-80 transition-opacity">
+                <app-brand-logo class="w-40 md:w-44"></app-brand-logo>
+            </a>
+            <div class="flex items-center gap-4">
+                <a routerLink="/" class="text-sm font-medium text-slate-300 hover:text-white transition-colors">Home</a>
+                <a routerLink="/login" class="text-sm font-medium text-slate-300 hover:text-white transition-colors">Sign In</a>
+                <a routerLink="/signup" class="hidden md:block px-6 py-2.5 rounded-full text-sm font-bold bg-indigo-500 hover:bg-indigo-600 text-white transition-all shadow-[0_0_20px_rgba(99,102,241,0.5)]">
+                    Get Started
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Container with correct top spacing to prevent absolute navbar overlap -->
+    <div class="max-w-4xl mx-auto pt-32 pb-16 px-4 sm:px-6 lg:px-8 space-y-12">
+        
+        <!-- Header -->
+        <div class="text-center space-y-4">
+            <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight">How can we help?</h1>
+            <div class="relative max-w-xl mx-auto">
+                <input type="text" [(ngModel)]="searchQuery" (input)="filter()"
+                    placeholder="Search for answers..." 
+                    class="w-full bg-slate-800/50 border border-slate-700 rounded-xl py-3.5 md:py-4 pl-12 pr-4 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 shadow-xl text-sm md:text-base">
+                <svg class="w-5 h-5 md:w-6 md:h-6 absolute left-4 top-3.5 md:top-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+            </div>
+        </div>
+
+        <!-- Categories Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+            <div *ngFor="let cat of categories; trackBy: trackByCategoryKey" (click)="selectCategory(cat.key)"
+                class="p-5 md:p-6 bg-slate-800/50 hover:bg-slate-800 rounded-2xl border border-slate-700/50 cursor-pointer transition-all hover:scale-[1.02] shadow-lg group">
+                <div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-indigo-500/20 flex items-center justify-center mb-3 md:mb-4 group-hover:bg-indigo-500 transition-colors">
+                    <span class="text-xl md:text-2xl">{{ cat.icon }}</span>
+                </div>
+                <h3 class="text-lg md:text-xl font-bold text-white mb-1 md:mb-2">{{ cat.label }}</h3>
+                <p class="text-slate-400 text-xs md:text-sm">View articles &rarr;</p>
+            </div>
+        </div>
+
+        <!-- FAQ List -->
+        <div class="space-y-6">
+            <h2 class="text-xl md:text-2xl font-bold flex items-center gap-3">
+                <span *ngIf="selectedCategory" class="text-indigo-400">{{ formatCategory(selectedCategory) }}</span>
+                <span *ngIf="!selectedCategory">All Articles</span>
+                <button *ngIf="selectedCategory" (click)="selectedCategory = null; filter()" class="text-xs px-2.5 py-1 rounded bg-slate-800 text-slate-400 hover:text-white transition-colors">&times; Clear</button>
+            </h2>
+
+            <div class="space-y-4">
+                <div *ngFor="let faq of filteredFaqs; trackBy: trackByFaqId" class="bg-[#1E293B] rounded-xl overflow-hidden border border-slate-700/50">
+                    <button (click)="toggleFaq(faq)" class="w-full flex items-center justify-between p-4 md:p-6 text-left hover:bg-slate-800/50 transition-colors">
+                        <span class="font-bold text-base md:text-lg text-slate-200 pr-4">{{ faq.question }}</span>
+                        <svg class="w-5 h-5 md:w-6 md:h-6 transform transition-transform text-slate-500 flex-shrink-0" [class.rotate-180]="faq === expandedFaq" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    <div *ngIf="faq === expandedFaq" class="px-4 md:px-6 pb-4 md:pb-6 pt-0 animate-fade-in">
+                        <div class="prose prose-invert max-w-none text-slate-300 pt-3 md:pt-4 border-t border-slate-700/50 text-sm md:text-base leading-relaxed" [innerHTML]="faq.answer | secureLinks"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="filteredFaqs.length === 0" class="text-center py-12 bg-slate-800/30 rounded-2xl border border-dashed border-slate-700 px-4">
+                <h3 class="text-lg md:text-xl font-bold text-slate-300 mb-2">No answers found</h3>
+                <p class="text-slate-500 mb-6 text-sm md:text-base">Can't find what you're looking for?</p>
+                <button (click)="triggerContact()" class="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-lg transition-colors text-sm md:text-base">Contact Support</button>
+            </div>
+        </div>
+
+    </div>
+</div>

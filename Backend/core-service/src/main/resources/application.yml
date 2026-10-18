@@ -1,0 +1,69 @@
+server:
+  port: 8081
+
+jwt:
+  secret: ${JWT_SECRET}
+
+spring:
+  threads:
+    virtual:
+      enabled: true
+  application:
+    name: core-service
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 5
+      idle-timeout: 600000 # 10 min - release idle connections
+      max-lifetime: 1800000 # 30 min - avoid MySQL connection resets
+      connection-timeout: 10000 # 10s - fail fast instead of blocking 30s
+      keepalive-time: 120000 # 2 min - keep Aiven connections alive
+      validation-timeout: 3000 # 3s - quick validation of stale connections
+      connection-test-query: SELECT 1
+  data:
+    redis:
+      host: ${REDIS_HOST:redis}
+      port: ${REDIS_PORT:6379}
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    hibernate:
+      ddl-auto: none # Shared DB, be careful not to drop User tables
+    show-sql: false
+
+logging:
+  level:
+    com.interviewcoach.core: DEBUG
+
+ai:
+  service:
+    url: ${UTILITY_SERVICE_URL}
+
+app:
+  services:
+    utility-service: ${UTILITY_SERVICE_URL}
+    media-service: ${MEDIA_SERVICE_URL}
+    user-service: ${USER_SERVICE_URL:http://localhost:8083}
+  storage:
+    type: ${APP_STORAGE_TYPE:cloudinary}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: when-authorized
+  tracing:
+    sampling:
+      probability: 0.1
+  zipkin:
+    tracing:
+      endpoint: "${MANAGEMENT_ZIPKIN_TRACING_ENDPOINT}"
+
+api:
+  version: v1

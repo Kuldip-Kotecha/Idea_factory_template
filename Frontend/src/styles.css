@@ -1,0 +1,331 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Critical above-the-fold styles for LCP optimization */
+@layer base {
+    html, body {
+        margin: 0;
+        padding: 0;
+    }
+    
+    app-root {
+        display: block;
+        min-height: 100vh;
+    }
+    
+    body {
+        @apply bg-slate-950 text-slate-50 antialiased;
+        background-color: #0f172a;
+        color: #ffffff;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+}
+
+@layer components {
+    .glass {
+        @apply bg-white/5 backdrop-blur-lg border border-white/10 shadow-xl;
+    }
+
+    .glass-card {
+        @apply glass rounded-2xl p-6 transition-all duration-300 hover:bg-white/10 hover:shadow-2xl hover:scale-[1.02];
+    }
+
+    .loading-overlay-container {
+        background-color: rgba(15, 23, 42, 0.4);
+        z-index: 10;
+    }
+
+    .form-content-wrapper {
+        transition: opacity 0.3s ease;
+    }
+
+    .form-content-wrapper.is-loading {
+        opacity: 0.15;
+        pointer-events: none;
+    }
+
+    .btn-primary {
+        @apply px-6 py-3 rounded-xl font-semibold bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg shadow-indigo-500/30 transition-all hover:shadow-indigo-500/50 hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
+    }
+
+    .btn-secondary {
+        @apply px-6 py-3 rounded-xl font-semibold bg-white/5 text-slate-300 border border-white/10 hover:bg-white/10 hover:text-white transition-all active:scale-95;
+    }
+
+    .input-field {
+        @apply w-full px-4 py-3 rounded-xl bg-white/5 border border-white/15 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+        @apply bg-slate-900;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        @apply bg-slate-700 rounded-full hover:bg-slate-600;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+}
+/* Auto-growing textarea with fallback */
+.auto-grow {
+    /* Fallback for browsers that don't support field-sizing */
+    resize: vertical;
+    min-height: 50px;
+}
+
+@supports (field-sizing: content) {
+    .auto-grow {
+        field-sizing: content;
+        resize: none;
+    }
+}
+
+/* Mobile Performance Optimizations */
+@media (max-width: 768px) {
+    .backdrop-blur-xl,
+    .backdrop-blur-2xl,
+    .backdrop-blur-\[2px\] {
+        backdrop-filter: blur(4px) !important;
+    }
+    
+    .glass-card:hover,
+    [class*="hover:scale-"] {
+        transform: none !important;
+    }
+}
+
+.gpu-accelerated {
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Mobile-specific fixes */
+@media (max-width: 768px) {
+    .glass-card {
+        transition: none !important;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+        transition: background-color 0.15s, color 0.15s !important;
+    }
+
+    .animate-float {
+        animation: none !important;
+    }
+}
+
+/* Mobile Modal Fixes */
+@media (max-width: 640px) {
+    /* Ensure modals don't overflow on mobile */
+    [role="dialog"] {
+        max-width: calc(100vw - 2rem) !important;
+    }
+
+    /* Fix for fixed positioned elements on mobile */
+    .fixed.inset-0.z-50,
+    .fixed.inset-0.z-\[100\] {
+        padding: 0.5rem;
+        align-items: flex-end;
+    }
+
+    /* Ensure modal content scrolls if needed on small screens */
+    .glass-card,
+    [class*="max-w-"][class*="w-full"] {
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+}
+
+/* Progress Page Mobile Fixes */
+@media (max-width: 640px) {
+    /* Tier badges horizontal scroll */
+    .overflow-x-auto {
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+    .overflow-x-auto::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+/* Report Page Mobile Fixes */
+@media (max-width: 640px) {
+    /* Playback mode buttons - reduce width on mobile */
+    [class*="w-full"][class*="md:w-"] {
+        width: 100% !important;
+    }
+
+    /* Ensure tab bar scrolls on small screens */
+    .overflow-x-auto.no-scrollbar {
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+    .overflow-x-auto.no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+/* ============================================
+   MOBILE LAYOUT & SPACING FIXES
+   ============================================ */
+
+@media (max-width: 640px) {
+    /* Landing Page Hero */
+    .hero-title {
+        font-size: 2.5rem !important;
+        line-height: 1.1 !important;
+        letter-spacing: -0.02em !important;
+    }
+
+    /* Landing Page Cards - The Why Section */
+    .feature-card {
+        padding: 1.25rem !important;
+        border-radius: 1rem !important;
+        margin-left: -0.25rem;
+        margin-right: -0.25rem;
+    }
+
+    .feature-card-icon {
+        width: 3rem !important;
+        height: 3rem !important;
+        margin-bottom: 1rem !important;
+    }
+
+    .feature-card h3 {
+        font-size: 1.25rem !important;
+        margin-bottom: 0.5rem !important;
+    }
+
+    .feature-card p {
+        font-size: 0.875rem !important;
+        line-height: 1.5 !important;
+    }
+
+    /* Landing Page Feature Sections */
+    .feature-section {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    .feature-section-image {
+        padding: 0.75rem !important;
+    }
+
+    /* Journey Banner */
+    .journey-title {
+        font-size: 1.75rem !important;
+        line-height: 1.2 !important;
+    }
+
+    /* CTA Section */
+    .cta-title {
+        font-size: 1.75rem !important;
+        line-height: 1.2 !important;
+    }
+
+    /* Footer Disclaimer Cards */
+    .disclaimer-card {
+        padding: 1.25rem !important;
+    }
+
+    /* Room Page - Center Stage */
+    .room-stage {
+        padding: 1rem !important;
+    }
+
+    /* Room Page - Avatar Orb */
+    .avatar-orb {
+        width: 10rem !important;
+        height: 10rem !important;
+    }
+
+    /* Room Page - Summary Overlay */
+    .summary-card {
+        padding: 1rem !important;
+        border-radius: 1.5rem !important;
+        max-height: 85vh !important;
+    }
+
+    .summary-score {
+        width: 8rem !important;
+        height: 8rem !important;
+    }
+
+    .summary-stats {
+        padding: 0.75rem !important;
+    }
+
+    /* Room Page - Control Dock */
+    .control-dock {
+        height: 5rem !important;
+        padding-left: 0.5rem !important;
+        padding-right: 0.5rem !important;
+    }
+
+    /* Increase touch targets on mobile */
+    .touch-target {
+        min-height: 44px;
+        min-width: 44px;
+    }
+
+    /* Fix form inputs on mobile */
+    input, textarea, select {
+        font-size: 16px !important;
+    }
+
+    /* Landing Section Spacing */
+    .section-spacing {
+        padding-top: 3rem !important;
+        padding-bottom: 3rem !important;
+    }
+
+    /* Hide floating elements that don't work well on mobile */
+    .hide-mobile {
+        display: none !important;
+    }
+}
+
+/* Tablet adjustments */
+@media (min-width: 641px) and (max-width: 1024px) {
+    .hero-title {
+        font-size: 3.5rem !important;
+    }
+
+    .feature-card {
+        padding: 1.5rem !important;
+    }
+}

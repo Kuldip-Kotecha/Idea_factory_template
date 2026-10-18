@@ -1,0 +1,49 @@
+spring:
+  application:
+    name: media-service-smoke
+
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+    database-platform: org.hibernate.dialect.H2Dialect
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+
+app:
+  storage:
+    type: cloudinary
+
+server:
+  port: 8082
+
+management:
+  tracing:
+    sampling:
+      probability: 0.0
+
+CLOUDINARY_CLOUD_NAME: test-cloud
+CLOUDINARY_API_KEY: test-key
+CLOUDINARY_API_SECRET: test-secret
+
+logging:
+  level:
+    com.interviewcoach: INFO
+    org.springframework: WARN
+
+JWT_SECRET: test-secret-key-for-testing-purposes-only-12345678901234567890

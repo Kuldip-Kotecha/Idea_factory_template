@@ -1,0 +1,81 @@
+server:
+  port: ${APP_PORT:8085}
+
+spring:
+  threads:
+    virtual:
+      enabled: true
+  application:
+    name: utility-service
+  config:
+    import: optional:file:../.env
+
+jwt:
+  secret: ${JWT_SECRET}
+
+ai:
+  api-key: ${AI_API_KEY}
+  model: ${AI_MODEL}
+  base-url: ${AI_API_BASE_URL}
+  temperature: ${NVIDIA_TEMPERATURE:1.0}
+  top_p: ${NVIDIA_TOP_P:0.95}
+  max_tokens: ${NVIDIA_MAX_TOKENS:8192}
+
+tts:
+  api-key: ${AI_TTS_API_KEY:${AI_API_KEY:}}
+  model: ${AI_TTS_MODEL:sonic-2}
+  voice: ${AI_TTS_VOICE:a0e99841-438c-4a64-b679-ae501e7d6091}
+  base-url: ${AI_TTS_API_BASE_URL:https://api.cartesia.ai}
+
+huggingface:
+  temperature: ${HF_TEMPERATURE:0.7}
+  max-tokens: ${HF_MAX_TOKENS:1024}
+
+rate:
+  limit:
+    capacity: ${RATE_LIMIT_CAPACITY:30}
+    refill-tokens: ${RATE_LIMIT_REFILL_TOKENS:10}
+    refill-minutes: ${RATE_LIMIT_REFILL_MINUTES:1}
+
+logging:
+  level:
+    com.interviewcoach.utility: ${LOG_LEVEL:DEBUG}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: when-authorized
+      probes:
+        enabled: true
+  health:
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true
+  tracing:
+    sampling:
+      probability: 0.1
+  zipkin:
+    tracing:
+      endpoint: ${MANAGEMENT_ZIPKIN_TRACING_ENDPOINT:http://localhost:9411/api/v2/spans}
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      huggingface:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        permittedNumberOfCallsInHalfOpenState: 3
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 5s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 10
+  timelimiter:
+    instances:
+      huggingface:
+        timeoutDuration: 35s

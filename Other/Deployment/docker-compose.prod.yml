@@ -1,0 +1,160 @@
+version: '3.8'
+
+services:
+  # ===========================================
+  # API Gateway (Edge Reverse Proxy & Auth Router)
+  # ===========================================
+  api-gateway:
+    build:
+      context: ../../Backend/api-gateway
+      dockerfile: Dockerfile
+    container_name: app-api-gateway
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - JWT_SECRET=${JWT_SECRET}
+      - CORE_SERVICE_URL=${CORE_SERVICE_URL:-http://core-service:8081}
+      - USER_SERVICE_URL=${USER_SERVICE_URL:-http://user-service:8083}
+      - NOTIFICATION_SERVICE_URL=${NOTIFICATION_SERVICE_URL:-http://notification-service:8084}
+      - UTILITY_SERVICE_URL=${UTILITY_SERVICE_URL:-http://utility-service:8085}
+      - APP_FRONTEND_URL=${APP_FRONTEND_URL}
+      - MANAGEMENT_TRACING_ENABLED=false
+    env_file:
+      - .env.production
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    networks:
+      - app-production-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # ===========================================
+  # User & Authentication Service
+  # ===========================================
+  user-service:
+    build:
+      context: ../../Backend/user-service
+      dockerfile: Dockerfile
+    container_name: app-user-service
+    ports:
+      - "8083:8083"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL_USER}
+      - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME_USER}
+      - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD_USER}
+      - SPRING_DATA_REDIS_HOST=${SPRING_DATA_REDIS_HOST}
+      - SPRING_DATA_REDIS_PORT=${SPRING_DATA_REDIS_PORT}
+      - SPRING_DATA_REDIS_PASSWORD=${SPRING_DATA_REDIS_PASSWORD}
+      - SPRING_DATA_REDIS_SSL_ENABLED=${SPRING_DATA_REDIS_SSL_ENABLED}
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+      - OAUTH2_REDIRECT_URI=${OAUTH2_REDIRECT_URI}
+      - APP_FRONTEND_URL=${APP_FRONTEND_URL}
+      - MANAGEMENT_TRACING_ENABLED=false
+    env_file:
+      - .env.production
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8083/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    networks:
+      - app-production-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # ===========================================
+  # Core Business Service
+  # ===========================================
+  core-service:
+    build:
+      context: ../../Backend/core-service
+      dockerfile: Dockerfile
+    container_name: app-core-service
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL_CORE}
+      - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME_CORE}
+      - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD_CORE}
+      - SPRING_DATA_REDIS_HOST=${SPRING_DATA_REDIS_HOST}
+      - SPRING_DATA_REDIS_PORT=${SPRING_DATA_REDIS_PORT}
+      - SPRING_DATA_REDIS_PASSWORD=${SPRING_DATA_REDIS_PASSWORD}
+      - SPRING_DATA_REDIS_SSL_ENABLED=${SPRING_DATA_REDIS_SSL_ENABLED}
+      - MANAGEMENT_TRACING_ENABLED=false
+    env_file:
+      - .env.production
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8081/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    networks:
+      - app-production-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # ===========================================
+  # Notification Service
+  # ===========================================
+  notification-service:
+    build:
+      context: ../../Backend/notification-service
+      dockerfile: Dockerfile
+    container_name: app-notification-service
+    ports:
+      - "8084:8084"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_DATA_REDIS_HOST=${SPRING_DATA_REDIS_HOST}
+      - SPRING_DATA_REDIS_PORT=${SPRING_DATA_REDIS_PORT}
+      - SPRING_DATA_REDIS_PASSWORD=${SPRING_DATA_REDIS_PASSWORD}
+      - SPRING_MAIL_HOST=${SPRING_MAIL_HOST}
+      - SPRING_MAIL_PORT=${SPRING_MAIL_PORT}
+      - SPRING_MAIL_USERNAME=${SPRING_MAIL_USERNAME}
+      - SPRING_MAIL_PASSWORD=${SPRING_MAIL_PASSWORD}
+      - APP_NOTIFICATION_EMAIL_FROM=${APP_NOTIFICATION_EMAIL_FROM}
+      - APP_NOTIFICATION_SUPPORT_EMAIL=${APP_NOTIFICATION_SUPPORT_EMAIL}
+      - MANAGEMENT_TRACING_ENABLED=false
+    env_file:
+      - .env.production
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8084/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    networks:
+      - app-production-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+networks:
+  app-production-network:
+    name: app-production-network
+    driver: bridge

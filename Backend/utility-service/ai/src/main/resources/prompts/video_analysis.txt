@@ -1,0 +1,13 @@
+Analyze the video frame for visual cues during the interview.
+
+Video Description:
+{{video_description}}
+
+Assess and provide:
+1. Overall visual presentation (1 sentence)
+2. Body language and posture
+3. Facial expressions and eye contact
+4. Professional appearance indicators
+5. Confidence and engagement level
+
+Format as a concise assessment, 3-5 sentences total.

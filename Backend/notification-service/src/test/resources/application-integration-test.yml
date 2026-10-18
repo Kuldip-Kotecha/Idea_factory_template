@@ -1,0 +1,69 @@
+# Integration Test Profile - Notification Service
+# This profile uses REAL SMTP server (not mocks)
+# Environment variables MUST be set before running tests
+
+server:
+  port: 8084
+
+spring:
+  application:
+    name: notification-service
+
+  # Real Redis for queue operations
+  data:
+    redis:
+      host: ${SPRING_DATA_REDIS_HOST}
+      port: ${SPRING_DATA_REDIS_PORT}
+      password: ${SPRING_DATA_REDIS_PASSWORD}
+      ssl:
+        enabled: ${SPRING_DATA_REDIS_SSL_ENABLED}
+
+  # Real RabbitMQ for message queue
+  rabbitmq:
+    host: ${SPRING_RABBITMQ_HOST}
+    port: ${SPRING_RABBITMQ_PORT}
+    username: ${SPRING_RABBITMQ_USERNAME}
+    password: ${SPRING_RABBITMQ_PASSWORD}
+    virtual-host: ${SPRING_RABBITMQ_VIRTUAL_HOST}
+    ssl:
+      enabled: ${SPRING_RABBITMQ_SSL_ENABLED}
+
+  # Real SMTP server (Gmail, SendGrid, etc.)
+  mail:
+    host: ${SPRING_MAIL_HOST}
+    port: ${SPRING_MAIL_PORT}
+    username: ${SPRING_MAIL_USERNAME}
+    password: ${SPRING_MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          connectiontimeout: 5000
+          timeout: 10000
+          writetimeout: 10000
+
+# Notification service configuration
+app:
+  notification:
+    email-from: ${APP_NOTIFICATION_EMAIL_FROM}
+    support-email: ${APP_NOTIFICATION_SUPPORT_EMAIL}
+  queue:
+    enabled: false
+
+# Disable tracing during tests
+management:
+  tracing:
+    sampling:
+      probability: 0.0
+  zipkin:
+    tracing:
+      endpoint: 
+
+# Logging
+logging:
+  level:
+    com.interviewcoach.notification: INFO
+    org.springframework: WARN
+    org.springframework.mail: DEBUG

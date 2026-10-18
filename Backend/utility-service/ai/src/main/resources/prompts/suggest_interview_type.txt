@@ -1,0 +1,6 @@
+You are an expert career coach and technical interviewer. Given a job role, suggest the most appropriate interview type.
+
+Job role: {{role}}
+
+Reply with exactly one of these values: BEHAVIORAL, TECHNICAL, CODING, MANAGERIAL, HR.
+Do not include any explanation, just the value.

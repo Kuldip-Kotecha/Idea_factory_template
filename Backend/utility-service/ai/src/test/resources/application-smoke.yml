@@ -1,0 +1,31 @@
+server:
+  port: 0
+
+spring:
+  application:
+    name: utility-service-smoke
+
+jwt:
+  secret: test-secret-key-for-testing-purposes-only-12345678901234567890
+
+ai:
+  api-key: dummy
+  model: dummy
+  base-url: http://dummy
+tts:
+  api-key: dummy
+  model: dummy
+  voice: dummy
+  base-url: http://dummy
+
+management:
+  tracing:
+    sampling:
+      probability: 0.0
+  zipkin:
+    tracing:
+      endpoint: http://localhost:9411/api/v2/spans
+
+logging:
+  level:
+    com.interviewcoach.utility: INFO

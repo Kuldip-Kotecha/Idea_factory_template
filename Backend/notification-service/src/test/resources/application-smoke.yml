@@ -1,0 +1,49 @@
+spring:
+  application:
+    name: notification-service-smoke
+
+  mail:
+    host: localhost
+    port: 1025
+    properties:
+      mail:
+        smtp:
+          auth: false
+          starttls:
+            enable: false
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+jwt:
+  secret: test-secret-key-for-testing-purposes-only-12345678901234567890
+
+JWT_SECRET: test-secret-key-for-testing-purposes-only-12345678901234567890
+
+app:
+  queue:
+    enabled: false
+
+server:
+  port: 8084
+
+management:
+  tracing:
+    sampling:
+      probability: 0.0
+  zipkin:
+    tracing:
+      endpoint: http://localhost:9411/api/v2/spans
+
+logging:
+  level:
+    com.interviewcoach: INFO
+    org.springframework: WARN

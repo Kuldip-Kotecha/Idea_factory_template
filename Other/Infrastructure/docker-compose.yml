@@ -1,0 +1,127 @@
+services:
+  # =============================================================================
+  # Edge / Gateway
+  # =============================================================================
+  api-gateway:
+    build:
+      context: ../../Backend/api-gateway
+      dockerfile: Dockerfile
+    container_name: api-gateway
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    depends_on:
+      - user-service
+      - core-service
+      - notification-service
+    networks:
+      - app-network
+
+  # =============================================================================
+  # Core Business Services
+  # =============================================================================
+  user-service:
+    build:
+      context: ../../Backend/user-service
+      dockerfile: Dockerfile
+    container_name: user-service
+    ports:
+      - "8083:8083"
+    env_file:
+      - .env
+    environment:
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL_USER:-jdbc:mysql://mysql-db:3306/app_users?allowPublicKeyRetrieval=true&useSSL=false}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME_USER:-auth_user}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD_USER:-auth_password}
+      SPRING_DATA_REDIS_HOST: redis
+    depends_on:
+      - mysql-db
+      - redis
+    networks:
+      - app-network
+
+  core-service:
+    build:
+      context: ../../Backend/core-service
+      dockerfile: Dockerfile
+    container_name: core-service
+    ports:
+      - "8081:8081"
+    env_file:
+      - .env
+    environment:
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL_CORE:-jdbc:mysql://mysql-db:3306/app_core?allowPublicKeyRetrieval=true&useSSL=false}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME_CORE:-core_user}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD_CORE:-core_password}
+      SPRING_DATA_REDIS_HOST: redis
+    depends_on:
+      - mysql-db
+      - redis
+    networks:
+      - app-network
+
+  notification-service:
+    build:
+      context: ../../Backend/notification-service
+      dockerfile: Dockerfile
+    container_name: notification-service
+    ports:
+      - "8084:8084"
+    env_file:
+      - .env
+    environment:
+      SPRING_DATA_REDIS_HOST: redis
+    depends_on:
+      - redis
+    networks:
+      - app-network
+
+  utility-service:
+    build:
+      context: ../../Backend/utility-service/ai
+      dockerfile: Dockerfile
+    container_name: utility-service
+    ports:
+      - "8085:8085"
+    env_file:
+      - .env
+    networks:
+      - app-network
+
+  # =============================================================================
+  # Infrastructure Supporting Services
+  # =============================================================================
+  mysql-db:
+    image: mysql:8.0
+    container_name: mysql-db
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ../Database/init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+      - ../Database/schemas/01_create_users_schema.sql:/docker-entrypoint-initdb.d/02-users.sql:ro
+      - ../Database/schemas/02_create_core_starter_schema.sql:/docker-entrypoint-initdb.d/03-core.sql:ro
+    networks:
+      - app-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes
+    volumes:
+      - redis-data:/data
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mysql-data:
+  redis-data:

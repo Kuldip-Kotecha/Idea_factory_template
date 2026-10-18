@@ -1,0 +1,21 @@
+Extract structured information from the job posting and return as structured JSON.
+
+Job Posting Content:
+{{raw_text}}
+
+Extract and return a JSON object with these EXACT fields at the TOP LEVEL:
+- role: The job title or position (e.g., "Java Architect", "Software Engineer"). NEVER use "Unknown" if the job posting contains a job title.
+- company: The company name (e.g., "Hitachi", "Google"). NEVER use "Unknown" if the company name is mentioned anywhere in the posting.
+- description: A concise 2-4 sentence summary of the role and what the job entails (NOT responsibilities - this is the OVERALL role summary). IMPORTANT: This should be a plain text string, NOT a nested JSON object.
+- required_skills: Array of required hard skills and qualifications (e.g., ["Java", "Spring Boot"])
+- preferred_skills: Array of preferred qualifications
+- experience_level: Required years of experience (e.g., "5-7 years")
+- key_responsibilities: Array of main duties and responsibilities
+- education: Required education level
+
+CRITICAL RULES:
+1. If the job posting contains "Java Architect" or "Software Engineer" or ANY job title, extract it as the "role" - do NOT use "Unknown"
+2. If the posting contains "at Hitachi" or "Company: Google" or ANY company reference, extract it as "company" - do NOT use "Unknown"
+3. The "description" field must be a plain text string like: "This role involves designing and overseeing the technical architecture for Java-based systems..."
+4. Do NOT nest JSON objects inside any field - all fields must be flat
+5. Return ONLY the JSON object, no markdown, no explanations, no code blocks

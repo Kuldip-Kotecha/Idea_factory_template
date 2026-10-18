@@ -1,0 +1,59 @@
+# Integration Test Profile - Media Service
+# This profile uses REAL Cloudinary and RabbitMQ (not mocks)
+# Environment variables MUST be set before running tests
+
+spring:
+  # Real MySQL database
+  datasource:
+    url: ${SPRING_DATASOURCE_URL_MEDIA}
+    username: ${SPRING_DATASOURCE_USERNAME_MEDIA}
+    password: ${SPRING_DATASOURCE_PASSWORD_MEDIA}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+
+  # Real RabbitMQ
+  rabbitmq:
+    host: ${SPRING_RABBITMQ_HOST}
+    port: ${SPRING_RABBITMQ_PORT}
+    username: ${SPRING_RABBITMQ_USERNAME}
+    password: ${SPRING_RABBITMQ_PASSWORD}
+    virtual-host: ${SPRING_RABBITMQ_VIRTUAL_HOST}
+    ssl:
+      enabled: ${SPRING_RABBITMQ_SSL_ENABLED}
+
+app:
+  storage:
+    type: ${APP_STORAGE_TYPE}
+
+# Inter-service URLs (required by OpenFeign clients)
+CORE_SERVICE_URL: ${CORE_SERVICE_URL}
+UTILITY_SERVICE_URL: ${UTILITY_SERVICE_URL}
+
+# Cloudinary configuration
+CLOUDINARY_CLOUD_NAME: ${CLOUDINARY_CLOUD_NAME}
+CLOUDINARY_API_KEY: ${CLOUDINARY_API_KEY}
+CLOUDINARY_API_SECRET: ${CLOUDINARY_API_SECRET}
+
+# Disable tracing during tests
+management:
+  tracing:
+    sampling:
+      probability: 0.0
+  zipkin:
+    tracing:
+      endpoint:
+
+# Logging
+logging:
+  level:
+    com.interviewcoach.media: INFO
+    org.springframework: WARN
+    org.hibernate: WARN
+
+# JWT Secret (required by JwtUtil)
+jwt:
+  secret: ${JWT_SECRET}
